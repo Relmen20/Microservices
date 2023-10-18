@@ -1,0 +1,7 @@
+curl -i -X POST -H 'Content-Type: application/json' -d '{"addressId":1,"providerName":"OKSK","email":"OKSK@gmail.com"}' http://localhost:8080/api/provider
+
+curl -i -X POST -H 'Content-Type: application/json' -d '{"operatorId":1,"priorityType":"VIP","providerId":1,"sessionName":"First Session"}' http://localhost:8080/api/session
+
+curl -i -X PUT -H 'Content-Type: application/json' -d '{"id":2, "operatorId":1,"priorityType":"VIP","providerId":1,"sessionName":"Second Session"}' http://localhost:8080/api/session
+
+curl -i -X GET http://localhost:8080/api/session/2
