@@ -26,18 +26,18 @@ public class MessageMapper {
     }
 
     public MessageEntity messageDtoToEntity(MessageDto messageDto) {
-        MessageEntity messageEntity = new MessageEntity();
-        if(messageDto != null){
-            if(messageDto.getId() != null){
-                messageEntity.setId(messageDto.getId());
-            }
-            messageEntity.setPhone(messageDto.getPhone());
-            messageEntity.setText(messageDto.getText());
-            messageEntity.setOriginatorId(messageDto.getOriginatorId());
-            messageEntity.setOperatorId(messageDto.getOperatorId());
-            messageEntity.setSessionName(messageDto.getSessionName());
-            messageEntity.setStatus(messageDto.getStatus());
+        if(messageDto == null){
+            return null;
         }
-        return messageEntity;
+
+        return new MessageEntity.Builder()
+                .withId(messageDto.getId())
+                .withPhone(messageDto.getPhone())
+                .withText(messageDto.getText())
+                .withOriginatorId(messageDto.getOriginatorId())
+                .withOperatorId(messageDto.getOperatorId())
+                .withSessionName(messageDto.getSessionName())
+                .withStatus(messageDto.getStatus())
+                .build();
     }
 }

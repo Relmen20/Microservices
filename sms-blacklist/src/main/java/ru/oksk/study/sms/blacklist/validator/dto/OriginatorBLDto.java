@@ -3,15 +3,6 @@ package ru.oksk.study.sms.blacklist.validator.dto;
 public class OriginatorBLDto {
     private String id;
     private int originatorId;
-    private String phone;
-
-    public String getPhone() {
-        return phone;
-    }
-
-    public void setPhone(String phone) {
-        this.phone = phone;
-    }
 
     public int getOriginatorId() {
         return originatorId;

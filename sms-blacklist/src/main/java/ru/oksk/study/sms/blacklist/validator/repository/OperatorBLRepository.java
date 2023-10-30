@@ -6,6 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface OperatorBLRepository extends MongoRepository<OperatorBLEntity, String> {
-
     OperatorBLEntity findByOperatorId(int id);
 }

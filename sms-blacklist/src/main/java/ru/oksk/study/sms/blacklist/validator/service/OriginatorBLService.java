@@ -25,10 +25,6 @@ public class OriginatorBLService {
         return originatorBLMapper.originatorBLEntityToDto(originatorBLRepository.findByOriginatorId(id));
     }
 
-    public OriginatorBLDto findByPhone(String phone){
-        return originatorBLMapper.originatorBLEntityToDto(originatorBLRepository.findByPhone(phone));
-    }
-
     public List<OriginatorBLDto> findAll() {
         return originatorBLRepository.findAll().stream()
                 .map(originatorBLMapper::originatorBLEntityToDto)

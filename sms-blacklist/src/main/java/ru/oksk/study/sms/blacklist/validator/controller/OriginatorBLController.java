@@ -28,7 +28,7 @@ public class OriginatorBLController {
         }
     }
 
-    @GetMapping("{id}")
+    @GetMapping(path = "/{id}")
     public ResponseEntity<OriginatorBLDto> findById(@PathVariable String id){
         try{
             OriginatorBLDto originatorBLDto = originatorBLService.findById(id);
@@ -66,7 +66,7 @@ public class OriginatorBLController {
         }
     }
 
-    @DeleteMapping("{id}")
+    @DeleteMapping(path = "/{id}")
     public ResponseEntity<String> deleteOriginatorBL(@PathVariable String id){
         try{
             originatorBLService.deleteById(id);
@@ -77,7 +77,6 @@ public class OriginatorBLController {
     }
 
     private boolean validateOriginatorBLDto(OriginatorBLDto originatorBLDto){
-        return originatorBLDto.getPhone() != null &&
-               originatorBLDto.getOriginatorId() != 0;
+        return originatorBLDto.getOriginatorId() != 0;
     }
 }

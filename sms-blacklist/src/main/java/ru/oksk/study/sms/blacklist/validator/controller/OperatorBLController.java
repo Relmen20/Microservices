@@ -29,7 +29,7 @@ public class OperatorBLController {
         }
     }
 
-    @GetMapping("{id}")
+    @GetMapping(path = "/{id}")
     public ResponseEntity<OperatorBLDto> findById(@PathVariable String id){
         try{
             OperatorBLDto operatorBLDto = operatorBLService.findById(id);
@@ -68,7 +68,7 @@ public class OperatorBLController {
         }
     }
 
-    @DeleteMapping("{id}")
+    @DeleteMapping(path = "/{id}")
     public ResponseEntity<String> deleteOperatorBL(@PathVariable String id){
         try{
             operatorBLService.deleteById(id);

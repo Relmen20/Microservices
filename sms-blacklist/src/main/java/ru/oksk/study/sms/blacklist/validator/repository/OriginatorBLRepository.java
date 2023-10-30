@@ -8,6 +8,4 @@ import org.springframework.stereotype.Repository;
 public interface OriginatorBLRepository extends MongoRepository<OriginatorsBLEntity, String> {
 
     OriginatorsBLEntity findByOriginatorId(int originatorId);
-
-    OriginatorsBLEntity findByPhone(String phone);
 }

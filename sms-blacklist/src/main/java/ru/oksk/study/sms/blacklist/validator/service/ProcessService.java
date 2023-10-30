@@ -23,21 +23,24 @@ public class ProcessService {
     }
 
     public String validateInMongo(MutableSessionMessageDto mutableSessionMessageDto) {
-        MessageDto messageDto = messageService.findById(mutableSessionMessageDto.getId());
+        try{
+            MessageDto messageDto = messageService.findById(mutableSessionMessageDto.getId());
 
-        String response = "Init time: " + messageDto.getStatus().getInit() + "; ";
-        if(operatorBLService.findByOperatorId(mutableSessionMessageDto.getOperatorId()) != null &&
-           originatorBLService.findByOriginatorId(mutableSessionMessageDto.getOriginatorId()) != null &&
-           originatorBLService.findByPhone(mutableSessionMessageDto.getPhone()) != null){
+            String response = "Init time: " + messageDto.getStatus().getInit() + "; ";
+            if(operatorBLService.findByOperatorId(mutableSessionMessageDto.getOperatorId()) != null &&
+               originatorBLService.findByOriginatorId(mutableSessionMessageDto.getOriginatorId()) != null){
 
-            messageDto.getStatus().setUndelivered(LocalTime.now());
-            response += "Undelivered time: " + messageDto.getStatus().getUndelivered() + "; ";
-        }else{
-            messageDto.getStatus().setDelivered(LocalTime.now());
-            response += "Delivered time: " + messageDto.getStatus().getDelivered() + "; ";
+                messageDto.getStatus().setUndelivered(LocalTime.now());
+                response += "Undelivered time: " + messageDto.getStatus().getUndelivered() + "; ";
+            }else{
+                messageDto.getStatus().setDelivered(LocalTime.now());
+                response += "Delivered time: " + messageDto.getStatus().getDelivered() + "; ";
+            }
+
+            messageService.save(messageDto);
+            return response;
+        }catch(Exception e){
+            return e.getMessage();
         }
-
-        messageService.save(messageDto);
-        return response;
     }
 }

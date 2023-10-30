@@ -20,36 +20,38 @@ public class ProcessService {
     @Autowired
     public ProcessService(MessageService messageService,
                           SessionService sessionService,
-                          ServiceFeignClient serviceFeignClient
-    ) {
+                          ServiceFeignClient serviceFeignClient) {
         this.messageService = messageService;
         this.sessionService = sessionService;
         this.serviceFeignClient = serviceFeignClient;
     }
 
+    public ResponseEntity<String> handleClientMessage(ClientMessageDto clientMessageDto) {
+        try{
+            SessionValidateDto sessionValidateDto = sessionService.findBySessionName(clientMessageDto.getSessionName());
 
-    public ResponseEntity<String> startService(ClientMessageDto clientMessageDto) {
-        SessionValidateDto sessionValidateDto = sessionService.findBySessionName(clientMessageDto.getSessionName());
+            String newId = messageService.save(new MessageDto.Builder()
+                    .withPhone(clientMessageDto.getPhone())
+                    .withText(clientMessageDto.getText())
+                    .withOriginatorId(clientMessageDto.getOriginatorId())
+                    .withOperatorId(sessionValidateDto.getOperatorId())
+                    .withSessionName(sessionValidateDto.getSessionName())
+                    .build());
 
-        String newId = messageService.save(new MessageDto.Builder()
-                .withPhone(clientMessageDto.getPhone())
-                .withText(clientMessageDto.getText())
-                .withOriginatorId(clientMessageDto.getOriginatorId())
-                .withOperatorId(sessionValidateDto.getOperatorId())
-                .withSessionName(sessionValidateDto.getSessionName())
-                .build());
+            MutableSessionMessageDto mutableSessionMessageDto = new MutableSessionMessageDto.Builder()
+                    .withId(newId)
+                    .withPhone(clientMessageDto.getPhone())
+                    .withText(clientMessageDto.getText())
+                    .withOriginatorId(clientMessageDto.getOriginatorId())
+                    .withOperatorId(sessionValidateDto.getOperatorId())
+                    .withSessionName(sessionValidateDto.getSessionName())
+                    .withAddress(sessionValidateDto.getAddress())
+                    .withPort(sessionValidateDto.getPort())
+                    .build();
 
-        MutableSessionMessageDto mutableSessionMessageDto = new MutableSessionMessageDto.Builder()
-                .withId(newId)
-                .withPhone(clientMessageDto.getPhone())
-                .withText(clientMessageDto.getText())
-                .withOriginatorId(clientMessageDto.getOriginatorId())
-                .withOperatorId(sessionValidateDto.getOperatorId())
-                .withSessionName(sessionValidateDto.getSessionName())
-                .withAddress(sessionValidateDto.getAddress())
-                .withPort(sessionValidateDto.getPort())
-                .build();
-
-        return serviceFeignClient.endPoint(mutableSessionMessageDto);
+            return serviceFeignClient.endPoint(mutableSessionMessageDto);
+        }catch(Exception e){
+            return ResponseEntity.internalServerError().build();
+        }
     }
 }

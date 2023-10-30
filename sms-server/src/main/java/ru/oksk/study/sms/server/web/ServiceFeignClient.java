@@ -11,5 +11,5 @@ import ru.oksk.study.common.dto.MutableSessionMessageDto;
 public interface ServiceFeignClient {
 
     @RequestMapping(method = RequestMethod.POST, value = "/api/message")
-    public ResponseEntity<String> endPoint(@RequestBody MutableSessionMessageDto mutableSessionMessageDto);
+    ResponseEntity<String> endPoint(@RequestBody MutableSessionMessageDto mutableSessionMessageDto);
 }
