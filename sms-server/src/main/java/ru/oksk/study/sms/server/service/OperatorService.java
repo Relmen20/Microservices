@@ -13,7 +13,7 @@ import java.util.stream.Collectors;
 public class OperatorService {
 
     private final OperatorRepository operatorRepository;
-    private final OperatorMapper operatorMapper;;
+    private final OperatorMapper operatorMapper;
 
     @Autowired
     public OperatorService(OperatorRepository operatorRepository, OperatorMapper operatorMapper) {

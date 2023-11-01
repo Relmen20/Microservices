@@ -5,3 +5,15 @@ spring:
 
 server:
   port: 8082
+
+logging:
+  file:
+    name: ./sms-blacklist/logs/sms-blacklist.log
+    max-size: 200 KB
+  pattern:
+    rolling-file-name: ./sms-blacklist/logs/sms-blacklist-%d{yyyy-MM-dd}.%i.log
+    file: "%d{yyyy-mm-dd  HH:mm:ss.SSS} [%thread] -- %-5level -- %logger{36} - [%file:%line] : %msg%n"
+    console: "%d{yyyy-mm-dd  HH:mm:ss.SSS} [%thread] -- %-5level -- %logger{36} - [%file:%line] : %msg{magenta}%n"
+  level:
+    ru.oksk.study.sms.server: INFO
+    org.springframework: WARN

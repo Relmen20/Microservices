@@ -64,4 +64,14 @@ public class ClientMessageDto {
         this.sessionName = sessionName;
     }
 
+    @Override
+    public String toString() {
+        return "ClientMessageDto{" +
+                "id='" + id + '\'' +
+                ", phone='" + phone + '\'' +
+                ", originatorId=" + originatorId +
+                ", text='" + text + '\'' +
+                ", sessionName='" + sessionName + '\'' +
+                '}';
+    }
 }

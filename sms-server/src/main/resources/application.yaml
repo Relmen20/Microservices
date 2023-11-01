@@ -19,3 +19,20 @@ spring:
 
 server:
   port: 8083
+
+service:
+  sms-blacklist:
+    url: "localhost:8082"
+    endpoint: "/api/message"
+
+logging:
+  file:
+    name: ./sms-server/logs/sms-server.log
+    max-size: 200 KB
+  pattern:
+    rolling-file-name: ./sms-server/logs/sms-server-%d{yyyy-MM-dd}.%i.log
+    file: "%d{yyyy-mm-dd  HH:mm:ss.SSS} [%thread] -- %-5level -- %logger{36} - [%file:%line] : %msg%n"
+    console: "%d{yyyy-mm-dd  HH:mm:ss.SSS} [%thread] -- %-5level -- %logger{36} - [%file:%line] : %msg{magenta}%n"
+  level:
+    ru.oksk.study.sms.server: INFO
+    org.springframework: WARN

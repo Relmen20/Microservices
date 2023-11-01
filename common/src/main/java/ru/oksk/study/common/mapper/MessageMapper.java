@@ -2,10 +2,8 @@ package ru.oksk.study.common.mapper;
 
 import ru.oksk.study.common.dto.MessageDto;
 import ru.oksk.study.common.entity.MessageEntity;
-import ru.oksk.study.common.model.Status;
 import org.springframework.stereotype.Component;
 
-import static java.time.LocalTime.now;
 
 @Component
 public class MessageMapper {

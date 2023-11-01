@@ -1,6 +1,5 @@
 package ru.oksk.study.sms.server.controller;
 
-import ru.oksk.study.sms.server.dto.AddressDto;
 import ru.oksk.study.sms.server.dto.OperatorDto;
 import ru.oksk.study.sms.server.service.OperatorService;
 import org.springframework.beans.factory.annotation.Autowired;

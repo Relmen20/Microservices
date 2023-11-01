@@ -75,6 +75,20 @@ public class MutableSessionMessageDto {
         this.text = text;
     }
 
+    @Override
+    public String toString() {
+        return "MutableSessionMessageDto{" +
+                "id='" + id + '\'' +
+                ", operatorId=" + operatorId +
+                ", originatorId=" + originatorId +
+                ", port=" + port +
+                ", sessionName='" + sessionName + '\'' +
+                ", address='" + address + '\'' +
+                ", phone='" + phone + '\'' +
+                ", text='" + text + '\'' +
+                '}';
+    }
+
     private MutableSessionMessageDto() {
     }
 

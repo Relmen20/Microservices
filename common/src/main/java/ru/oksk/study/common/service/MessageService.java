@@ -32,7 +32,8 @@ public class MessageService {
     }
 
     public String save(MessageDto messageDto) {
-        return messageRepository.save(messageMapper.messageDtoToEntity(messageDto)).getId();
+        MessageEntity entity = messageMapper.messageDtoToEntity(messageDto);
+        return messageRepository.save(entity).getId();
     }
 
 
