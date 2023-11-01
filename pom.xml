@@ -19,6 +19,7 @@
         <module>sms-blacklist</module>
         <module>sms-server</module>
         <module>common</module>
+        <module>emulate-services</module>
     </modules>
 
     <properties>

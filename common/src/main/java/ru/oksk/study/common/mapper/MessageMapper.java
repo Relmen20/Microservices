@@ -1,7 +1,7 @@
 package ru.oksk.study.common.mapper;
 
-import ru.oksk.study.common.dto.MessageDto;
 import ru.oksk.study.common.entity.MessageEntity;
+import ru.oksk.study.common.dto.MessageDto;
 import org.springframework.stereotype.Component;
 
 

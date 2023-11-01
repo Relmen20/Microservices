@@ -1,9 +1,9 @@
 package ru.oksk.study.common.service;
 
+import ru.oksk.study.common.repository.MessageRepository;
 import ru.oksk.study.common.dto.MessageDto;
 import ru.oksk.study.common.entity.MessageEntity;
 import ru.oksk.study.common.mapper.MessageMapper;
-import ru.oksk.study.common.repository.MessageRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

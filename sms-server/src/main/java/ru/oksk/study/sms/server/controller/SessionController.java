@@ -1,7 +1,7 @@
 package ru.oksk.study.sms.server.controller;
 
-import ru.oksk.study.sms.server.dto.SessionDto;
 import ru.oksk.study.sms.server.model.PriorityType;
+import ru.oksk.study.sms.server.dto.SessionDto;
 import ru.oksk.study.sms.server.service.SessionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
