@@ -19,7 +19,8 @@ public class MessageMapper {
                 .withOriginatorId(messageEntity.getOriginatorId())
                 .withOperatorId(messageEntity.getOperatorId())
                 .withSessionName(messageEntity.getSessionName())
-                .withStatus(messageEntity.getStatus())
+                .withStatusHistory(messageEntity.getStatusHistory())
+                .withError(messageEntity.getErrorMessage())
                 .build();
     }
 
@@ -35,7 +36,8 @@ public class MessageMapper {
                 .withOriginatorId(messageDto.getOriginatorId())
                 .withOperatorId(messageDto.getOperatorId())
                 .withSessionName(messageDto.getSessionName())
-                .withStatus(messageDto.getStatus())
+                .withStatusHistory(messageDto.getStatusHistory())
+                .withError(messageDto.getErrorMessage())
                 .build();
     }
 }

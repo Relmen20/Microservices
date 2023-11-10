@@ -38,4 +38,14 @@ public class SessionValidateDto {
     public void setPort(int port) {
         this.port = port;
     }
+
+    @Override
+    public String toString() {
+        return "SessionValidateDto{" +
+                "operatorId=" + operatorId +
+                ", sessionName='" + sessionName + '\'' +
+                ", address='" + address + '\'' +
+                ", port=" + port +
+                '}';
+    }
 }

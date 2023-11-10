@@ -1,8 +1,9 @@
 package ru.oksk.study.common.dto;
 
+import ru.oksk.study.common.model.Error;
 import ru.oksk.study.common.model.Status;
 
-import java.time.LocalTime;
+import java.util.List;
 
 public class MessageDto {
     private String id;
@@ -11,7 +12,9 @@ public class MessageDto {
     private int originatorId;
     private int operatorId;
     private String sessionName;
-    private Status status;
+    private List<Status> statusHistory;
+
+    private Error errorMessage;
 
     public String getId() {
         return id;
@@ -61,12 +64,20 @@ public class MessageDto {
         this.sessionName = sessionName;
     }
 
-    public Status getStatus() {
-        return status;
+    public List<Status> getStatusHistory() {
+        return statusHistory;
     }
 
-    public void setStatus(Status status) {
-        this.status = status;
+    public void setStatusHistory(List<Status> status) {
+        this.statusHistory = status;
+    }
+
+    public Error getErrorMessage() {
+        return errorMessage;
+    }
+
+    public void setErrorMessage(Error errorMessage) {
+        this.errorMessage = errorMessage;
     }
 
     private MessageDto(){}
@@ -78,7 +89,9 @@ public class MessageDto {
         private int originatorId;
         private int operatorId;
         private String sessionName;
-        private Status status;
+        private List<Status> statusHistory;
+
+        private Error errorMessage;
 
         public Builder() {
         }
@@ -113,8 +126,13 @@ public class MessageDto {
             return this;
         }
 
-        public Builder withStatus(Status status) {
-            this.status = status;
+        public Builder withStatusHistory(List<Status> statusHistory) {
+            this.statusHistory = statusHistory;
+            return this;
+        }
+
+        public Builder withError(Error errorMessage){
+            this.errorMessage = errorMessage;
             return this;
         }
 
@@ -126,8 +144,8 @@ public class MessageDto {
             messageDto.originatorId = this.originatorId;
             messageDto.operatorId = this.operatorId;
             messageDto.sessionName = this.sessionName;
-            LocalTime time = LocalTime.now();
-            messageDto.status = this.status == null ? new Status(time, time, time) : this.status;
+            messageDto.statusHistory = this.statusHistory;
+            messageDto.errorMessage = this.errorMessage == null ? null : this.errorMessage;
             return messageDto;
         }
     }
@@ -141,7 +159,7 @@ public class MessageDto {
                 ", originatorId=" + originatorId +
                 ", operatorId=" + operatorId +
                 ", sessionName='" + sessionName + '\'' +
-                ", status=" + status +
+                ", status=" + statusHistory +
                 '}';
     }
 }

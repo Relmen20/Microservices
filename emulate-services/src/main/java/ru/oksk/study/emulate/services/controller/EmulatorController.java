@@ -6,7 +6,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import ru.oksk.study.emulate.services.EmulateServices;
 import ru.oksk.study.emulate.services.dto.EmulatorDto;
 import ru.oksk.study.emulate.services.service.EmulatorService;
 
@@ -22,9 +21,9 @@ public class EmulatorController {
     }
 
     @PostMapping
-    public ResponseEntity<String> startEmulatorPoint(@RequestBody EmulatorDto emulatorDto){
+    public ResponseEntity<Boolean> startEmulatorPoint(@RequestBody EmulatorDto emulatorDto){
         try{
-            if(emulatorDto.getPhone() == null){
+            if(emulatorDto.getPhone() == 0){
                 return ResponseEntity.badRequest().build();
             }
             return ResponseEntity.ok(emulatorService.checkAvailability(emulatorDto));

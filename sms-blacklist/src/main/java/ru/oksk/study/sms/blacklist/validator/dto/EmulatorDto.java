@@ -1,9 +1,13 @@
-package ru.oksk.study.emulate.services.dto;
+package ru.oksk.study.sms.blacklist.validator.dto;
 
 public class EmulatorDto {
     private long phone;
 
     public EmulatorDto() {
+    }
+
+    public EmulatorDto(long phone) {
+        this.phone = phone;
     }
 
     public long getPhone() {

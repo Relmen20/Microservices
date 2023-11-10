@@ -26,7 +26,7 @@ public class MessageController {
         try{
             log.info("Valid clientMessageDto --> " + clientMessageDto.toString());
             ResponseEntity<String> response = processService.handleClientMessage(clientMessageDto);
-            log.info("Response --> " + response.getBody());
+            log.info("Response --> " + response.getStatusCode());
             return response;
         }catch(Exception e){
             log.error("Exception: " + e);

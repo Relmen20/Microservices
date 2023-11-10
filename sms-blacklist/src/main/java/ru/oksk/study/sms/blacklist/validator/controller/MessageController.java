@@ -7,6 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
 @Slf4j
 @RestController
 @RequestMapping("/api/message")
@@ -21,13 +24,17 @@ public class MessageController {
 
     @PostMapping
     public ResponseEntity<String> endPoint(@RequestBody MutableSessionMessageDto mutableSessionMessageDto){
+
         try{
             if(!validateMutableDto(mutableSessionMessageDto)){
                 log.info("Not valid DTO come to service");
                 return ResponseEntity.badRequest().build();
             }
+
             log.info("Valid DTO --> " + mutableSessionMessageDto.toString());
-            return ResponseEntity.ok(processService.validateInMongo(mutableSessionMessageDto));
+            processService.processMutableDto(mutableSessionMessageDto);
+            return ResponseEntity.ok("");
+
         }catch(Exception e){
             log.error("Exception " + e);
             return ResponseEntity.internalServerError().build();
@@ -37,10 +44,9 @@ public class MessageController {
     private boolean validateMutableDto(MutableSessionMessageDto mutableSessionMessageDto) {
         return mutableSessionMessageDto.getOperatorId() != 0 &&
                 mutableSessionMessageDto.getSessionName() != null &&
-                mutableSessionMessageDto.getAddress() != null &&
                 mutableSessionMessageDto.getText() != null &&
                 mutableSessionMessageDto.getPhone() != null &&
-                mutableSessionMessageDto.getPort() != 0 &&
-                mutableSessionMessageDto.getOriginatorId() != 0;
+                mutableSessionMessageDto.getOriginatorId() != 0 &&
+                mutableSessionMessageDto.getUri() != null;
     }
 }

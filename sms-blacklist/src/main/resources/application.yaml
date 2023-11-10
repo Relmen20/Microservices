@@ -6,6 +6,11 @@ spring:
 server:
   port: 8082
 
+service:
+  emulate-services:
+    url: "localhost:8091"
+    endpoint: "/api"
+
 logging:
   file:
     name: ./sms-blacklist/logs/sms-blacklist.log

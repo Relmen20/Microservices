@@ -1,10 +1,12 @@
 package ru.oksk.study.common.entity;
 
+import com.mongodb.lang.Nullable;
+import ru.oksk.study.common.model.Error;
 import ru.oksk.study.common.model.Status;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import java.time.LocalTime;
+import java.util.List;
 
 @Document(value = "message")
 public class MessageEntity {
@@ -16,7 +18,9 @@ public class MessageEntity {
     private int originatorId;
     private int operatorId;
     private String sessionName;
-    private Status status;
+    private List<Status> statusHistory;
+    @Nullable
+    private Error errorMessage;
 
     public MessageEntity() {
     }
@@ -69,12 +73,20 @@ public class MessageEntity {
         this.sessionName = sessionName;
     }
 
-    public Status getStatus() {
-        return status;
+    public List<Status> getStatusHistory() {
+        return statusHistory;
     }
 
-    public void setStatus(Status status) {
-        this.status = status;
+    public void setStatusHistory(List<Status> status) {
+        this.statusHistory = status;
+    }
+
+    public Error getErrorMessage() {
+        return errorMessage;
+    }
+
+    public void setErrorMessage(Error errorMessage) {
+        this.errorMessage = errorMessage;
     }
 
     public static class Builder{
@@ -85,7 +97,8 @@ public class MessageEntity {
         private int originatorId;
         private int operatorId;
         private String sessionName;
-        private Status status;
+        private List<Status> statusHistory;
+        private Error errorMessage;
         public Builder() {
         }
 
@@ -119,8 +132,13 @@ public class MessageEntity {
             return this;
         }
 
-        public Builder withStatus(Status status) {
-            this.status = status;
+        public Builder withStatusHistory(List<Status> status) {
+            this.statusHistory = status;
+            return this;
+        }
+
+        public Builder withError(Error errorMessage){
+            this.errorMessage = errorMessage;
             return this;
         }
 
@@ -132,8 +150,8 @@ public class MessageEntity {
             messageEntity.originatorId = this.originatorId;
             messageEntity.operatorId = this.operatorId;
             messageEntity.sessionName = this.sessionName;
-            LocalTime time = LocalTime.now();
-            messageEntity.status = this.status == null ? new Status(time, time, time) : this.status;
+            messageEntity.statusHistory = this.statusHistory;
+            messageEntity.errorMessage = this.errorMessage == null ? null : this.errorMessage;
             return messageEntity;
         }
 

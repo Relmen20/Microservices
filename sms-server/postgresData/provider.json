@@ -1,0 +1,17 @@
+[
+  {
+    "addressId": 1,
+    "providerName": "Mts-Telecom",
+    "email": "mts@telecom.ru"
+  },
+  {
+    "addressId": 2,
+    "providerName": "Megafon-Telecom",
+    "email": "megafon@telecom.ru"
+  },
+  {
+    "addressId": 3,
+    "providerName": "Beeline-Telecom",
+    "email": "beeline@telecom.ru"
+  }
+]

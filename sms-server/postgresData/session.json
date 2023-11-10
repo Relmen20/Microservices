@@ -1,0 +1,20 @@
+[
+  {
+    "operatorId": 1,
+    "priorityType": "VIP",
+    "providerId": 1,
+    "sessionName": "FirstSession"
+  },
+  {
+    "operatorId": 2,
+    "priorityType": "VIP",
+    "providerId": 2,
+    "sessionName": "SecondSession"
+  },
+  {
+    "operatorId": 3,
+    "priorityType": "DEFAULT",
+    "providerId": 3,
+    "sessionName": "ThirdSession"
+  }
+]

@@ -1,15 +1,16 @@
 package ru.oksk.study.common.dto;
 
+import java.net.URI;
+
 public class MutableSessionMessageDto {
 
     private String id;
-    private int operatorId;
-    private int originatorId;
-    private int port;
     private String sessionName;
-    private String address;
     private String phone;
     private String text;
+    private int operatorId;
+    private int originatorId;
+    private URI uri;
 
     public String getId() {
         return id;
@@ -35,13 +36,6 @@ public class MutableSessionMessageDto {
         this.originatorId = originatorId;
     }
 
-    public int getPort() {
-        return port;
-    }
-
-    public void setPort(int port) {
-        this.port = port;
-    }
 
     public String getSessionName() {
         return sessionName;
@@ -51,12 +45,12 @@ public class MutableSessionMessageDto {
         this.sessionName = sessionName;
     }
 
-    public String getAddress() {
-        return address;
+    public URI getUri() {
+        return uri;
     }
 
-    public void setAddress(String address) {
-        this.address = address;
+    public void setUri(URI uri) {
+        this.uri = uri;
     }
 
     public String getPhone() {
@@ -79,13 +73,12 @@ public class MutableSessionMessageDto {
     public String toString() {
         return "MutableSessionMessageDto{" +
                 "id='" + id + '\'' +
-                ", operatorId=" + operatorId +
-                ", originatorId=" + originatorId +
-                ", port=" + port +
                 ", sessionName='" + sessionName + '\'' +
-                ", address='" + address + '\'' +
                 ", phone='" + phone + '\'' +
                 ", text='" + text + '\'' +
+                ", operatorId=" + operatorId +
+                ", originatorId=" + originatorId +
+                ", uri=" + uri +
                 '}';
     }
 
@@ -96,11 +89,10 @@ public class MutableSessionMessageDto {
         private String id;
         private String phone;
         private String text;
+        private String sessionName;
         private int originatorId;
         private int operatorId;
-        private String sessionName;
-        private String address;
-        private int port;
+        private URI uri;
 
         public Builder() {
         }
@@ -135,13 +127,8 @@ public class MutableSessionMessageDto {
             return this;
         }
 
-        public Builder withAddress(String address) {
-            this.address = address;
-            return this;
-        }
-
-        public Builder withPort(int port) {
-            this.port = port;
+        public Builder withUri(URI uri){
+            this.uri = uri;
             return this;
         }
 
@@ -153,8 +140,7 @@ public class MutableSessionMessageDto {
             mutableDto.originatorId = this.originatorId;
             mutableDto.operatorId = this.operatorId;
             mutableDto.sessionName = this.sessionName;
-            mutableDto.address = this.address;
-            mutableDto.port = this.port;
+            mutableDto.uri = this.uri;
             return mutableDto;
         }
     }

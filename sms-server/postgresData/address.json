@@ -1,0 +1,14 @@
+[
+  {
+    "address": "localhost",
+    "port": 8091
+  },
+  {
+    "address": "localhost",
+    "port": 8092
+  },
+  {
+    "address": "localhost",
+    "port": 8093
+  }
+]

@@ -11,13 +11,11 @@ public class SessionMapper {
 
     private final ProviderMapper providerMapper;
     private final OperatorMapper operatorMapper;
-    private final AddressMapper addressMapper;
 
     @Autowired
-    public SessionMapper(ProviderMapper providerMapper, OperatorMapper operatorMapper, AddressMapper addressMapper) {
+    public SessionMapper(ProviderMapper providerMapper, OperatorMapper operatorMapper) {
         this.providerMapper = providerMapper;
         this.operatorMapper = operatorMapper;
-        this.addressMapper = addressMapper;
     }
 
     public SessionDto sessionEntityToDto(SessionEntity sessionEntity){

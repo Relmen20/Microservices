@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import ru.oksk.study.common.dto.MutableSessionMessageDto;
 
 @FeignClient(url = "${service.sms-blacklist.url}", name = "sms-blacklist")
-public interface ServiceFeignClient {
+public interface SmsServiceFeignClient {
 
     @RequestMapping(method = RequestMethod.POST, value = "${service.sms-blacklist.endpoint}")
     ResponseEntity<String> endPoint(@RequestBody MutableSessionMessageDto mutableSessionMessageDto);

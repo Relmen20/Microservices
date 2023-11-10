@@ -3,46 +3,40 @@ package ru.oksk.study.common.model;
 import java.time.LocalTime;
 
 public class Status {
-    private LocalTime init;
-    private LocalTime delivered;
-    private LocalTime undelivered;
+    private LocalTime time;
+    private StatusType name;
 
-    public Status(LocalTime init, LocalTime delivered, LocalTime undelivered) {
-        this.init = init;
-        this.delivered = delivered;
-        this.undelivered = undelivered;
+    public Status(LocalTime time, StatusType name) {
+        this.time = time;
+        this.name = name;
     }
 
-    public LocalTime getInit() {
-        return init;
-    }
-
-    public void setInit(LocalTime init) {
-        this.init = init;
-    }
-
-    public LocalTime getDelivered() {
-        return delivered;
-    }
-
-    public void setDelivered(LocalTime delivered) {
-        this.delivered = delivered;
-    }
-
-    public LocalTime getUndelivered() {
-        return undelivered;
-    }
-
-    public void setUndelivered(LocalTime undelivered) {
-        this.undelivered = undelivered;
+    public Status(StatusType name){
+        this.time = LocalTime.now();
+        this.name = name;
     }
 
     @Override
     public String toString() {
         return "Status{" +
-                "init=" + init +
-                ", delivered=" + delivered +
-                ", undelivered=" + undelivered +
+                "time=" + time +
+                ", name=" + name +
                 '}';
+    }
+
+    public LocalTime getTime() {
+        return time;
+    }
+
+    public void setTime(LocalTime time) {
+        this.time = time;
+    }
+
+    public StatusType getName() {
+        return name;
+    }
+
+    public void setName(StatusType name) {
+        this.name = name;
     }
 }

@@ -1,5 +1,7 @@
 package ru.oksk.study.common.service;
 
+import ru.oksk.study.common.model.Error;
+import ru.oksk.study.common.model.Status;
 import ru.oksk.study.common.repository.MessageRepository;
 import ru.oksk.study.common.dto.MessageDto;
 import ru.oksk.study.common.entity.MessageEntity;
@@ -36,7 +38,13 @@ public class MessageService {
         return messageRepository.save(entity).getId();
     }
 
+    public void updateMessageStatus(String id, Status status){
+        messageRepository.updateStatus(id, status);
+    }
 
+    public void setError(String id, Error error){
+        messageRepository.setError(id, error);
+    }
     public void deleteById(String id){
         messageRepository.deleteById(id);
     }
