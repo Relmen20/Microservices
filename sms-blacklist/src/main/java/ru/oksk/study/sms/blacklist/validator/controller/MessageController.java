@@ -16,10 +16,12 @@ import java.util.concurrent.Executors;
 public class MessageController {
 
     private final ProcessService processService;
+    private final ExecutorService processExecutor;
 
     @Autowired
     public MessageController(ProcessService processService) {
         this.processService = processService;
+        this.processExecutor = Executors.newSingleThreadExecutor();
     }
 
     @PostMapping
@@ -31,8 +33,8 @@ public class MessageController {
                 return ResponseEntity.badRequest().build();
             }
 
-            log.info("Valid DTO --> " + mutableSessionMessageDto.toString());
-            processService.processMutableDto(mutableSessionMessageDto);
+            log.info("Valid DTO --> " + mutableSessionMessageDto);
+            processExecutor.submit(() -> processService.processMutableDto(mutableSessionMessageDto));
             return ResponseEntity.ok("");
 
         }catch(Exception e){

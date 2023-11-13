@@ -2,8 +2,6 @@ package ru.oksk.study.sms.blacklist.validator.service;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
-import org.springframework.scheduling.annotation.Async;
-import ru.oksk.study.common.dto.MessageDto;
 import ru.oksk.study.common.dto.MutableSessionMessageDto;
 import ru.oksk.study.common.model.Error;
 import ru.oksk.study.common.model.ErrorType;
@@ -12,10 +10,9 @@ import ru.oksk.study.common.model.StatusType;
 import ru.oksk.study.common.service.MessageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import ru.oksk.study.sms.blacklist.validator.dto.EmulatorDto;
+import ru.oksk.study.common.dto.EmulatorDto;
 import ru.oksk.study.sms.blacklist.validator.web.SmsBlacklistFeignClient;
 
-import java.time.LocalTime;
 import java.util.Objects;
 
 @Slf4j
@@ -37,23 +34,23 @@ public class ProcessService {
         this.messageService = messageService;
     }
 
-    @Async
+//    @Async
     public void processMutableDto(MutableSessionMessageDto mutableSessionMessageDto) {
 
 
         //TODO: проверка того что метод работает в новом потоке
-        System.out.println("Working");
-        try{
-            for (int i = 0; i < 5; i++) {
-                Thread.sleep(500);
-                System.out.print(". ");
-                Thread.sleep(500);
-                System.out.print(". ");
-            }
-            System.out.println("");
-        }catch(Exception e){
-            log.error(e.getMessage());
-        }
+//        System.out.println("Working");
+//        try{
+//            for (int i = 0; i < 5; i++) {
+//                Thread.sleep(500);
+//                System.out.print(". ");
+//                Thread.sleep(500);
+//                System.out.print(". ");
+//            }
+//            System.out.println("");
+//        }catch(Exception e){
+//            log.error(e.getMessage());
+//        }
 
         String messageId = mutableSessionMessageDto.getId();
         try {
@@ -110,8 +107,15 @@ public class ProcessService {
         ResponseEntity<Boolean> response;
 
         try {
-            response = smsBlacklistFeignClient.startEmulatorPoint(mutableSessionMessageDto.getUri(),
-                    new EmulatorDto(Long.parseLong(mutableSessionMessageDto.getPhone())));
+            // TODO: вынести логику преобразования из метода отправки запроса
+            //  + обработка ошибок по валидации номера телефона и конвертация его в LONG
+            EmulatorDto emulatorDto = new EmulatorDto.Builder()
+                    .withPhone(Long.parseLong(mutableSessionMessageDto.getPhone()))
+                    .withMessage(mutableSessionMessageDto.getText())
+                    .withOriginatorId(mutableSessionMessageDto.getOriginatorId())
+                    .build();
+
+            response = smsBlacklistFeignClient.startEmulatorPoint(mutableSessionMessageDto.getUri(), emulatorDto);
 
             switch (response.getStatusCode()) {
                 case OK:

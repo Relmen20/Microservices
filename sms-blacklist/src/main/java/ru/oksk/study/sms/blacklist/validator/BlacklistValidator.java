@@ -13,7 +13,7 @@ import org.springframework.scheduling.annotation.EnableAsync;
 @EnableMongoRepositories(basePackages = "ru.oksk.study")
 @EnableFeignClients
 @EnableDiscoveryClient
-@EnableAsync
+//@EnableAsync
 public class BlacklistValidator {
 
 	public static void main(String[] args) {

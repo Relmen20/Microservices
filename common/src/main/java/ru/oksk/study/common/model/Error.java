@@ -6,16 +6,18 @@ public class Error {
     private String message;
     private String exceptionCause;
 
+    public Error(ErrorType errorType, Exception exception) {
+        this.code = errorType.getCode();
+        this.message = errorType.name();
+        this.exceptionCause = exception.getCause() == null ? exception.getMessage() : exception.getCause().getClass().toString();
+    }
+
     public Error(ErrorType errorType) {
         this.code = errorType.getCode();
         this.message = errorType.name();
     }
 
-    public Error(ErrorType errorType, Exception exception) {
-        this.code = errorType.getCode();
-        this.message = errorType.name();
-        this.exceptionCause = exception.getCause().getClass().toString();
-    }
+
 
     public int getCode() {
         return code;
