@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
 @Slf4j
@@ -16,7 +16,7 @@ import java.util.concurrent.Executors;
 public class MessageController {
 
     private final ProcessService processService;
-    private final ExecutorService processExecutor;
+    private final Executor processExecutor;
 
     @Autowired
     public MessageController(ProcessService processService) {
@@ -34,7 +34,7 @@ public class MessageController {
             }
 
             log.info("Valid DTO --> " + mutableSessionMessageDto);
-            processExecutor.submit(() -> processService.processMutableDto(mutableSessionMessageDto));
+            processExecutor.execute(() -> processService.processMutableDto(mutableSessionMessageDto));
             return ResponseEntity.ok("");
 
         }catch(Exception e){

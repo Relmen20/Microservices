@@ -3,6 +3,7 @@ package ru.oksk.study.sms.blacklist.validator.service;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import ru.oksk.study.common.dto.MutableSessionMessageDto;
+import ru.oksk.study.common.dto.StatusDto;
 import ru.oksk.study.common.model.Error;
 import ru.oksk.study.common.model.ErrorType;
 import ru.oksk.study.common.model.Status;
@@ -10,7 +11,7 @@ import ru.oksk.study.common.model.StatusType;
 import ru.oksk.study.common.service.MessageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import ru.oksk.study.common.dto.EmulatorDto;
+import ru.oksk.study.common.dto.EmulatorOutputDto;
 import ru.oksk.study.sms.blacklist.validator.web.SmsBlacklistFeignClient;
 
 import java.util.Objects;
@@ -34,7 +35,6 @@ public class ProcessService {
         this.messageService = messageService;
     }
 
-//    @Async
     public void processMutableDto(MutableSessionMessageDto mutableSessionMessageDto) {
 
 
@@ -104,46 +104,51 @@ public class ProcessService {
     private void sendToEmulator(MutableSessionMessageDto mutableSessionMessageDto) {
 
         String messageId = mutableSessionMessageDto.getId();
-        ResponseEntity<Boolean> response;
+        ResponseEntity<StatusDto> response;
 
         try {
             // TODO: вынести логику преобразования из метода отправки запроса
             //  + обработка ошибок по валидации номера телефона и конвертация его в LONG
-            EmulatorDto emulatorDto = new EmulatorDto.Builder()
-                    .withPhone(Long.parseLong(mutableSessionMessageDto.getPhone()))
+            EmulatorOutputDto emulatorOutputDto = new EmulatorOutputDto.Builder()
+                    .withPhone(mutableSessionMessageDto.getPhone())
                     .withMessage(mutableSessionMessageDto.getText())
                     .withOriginatorId(mutableSessionMessageDto.getOriginatorId())
                     .build();
 
-            response = smsBlacklistFeignClient.startEmulatorPoint(mutableSessionMessageDto.getUri(), emulatorDto);
+            response = smsBlacklistFeignClient.startEmulatorPoint(mutableSessionMessageDto.getUri(), emulatorOutputDto);
 
-            switch (response.getStatusCode()) {
-                case OK:
-                    if (!response.hasBody()) {
-                        break;
-                    }
-
-                    if (Boolean.TRUE.equals(response.getBody())) {
-                        messageService.updateMessageStatus(messageId, new Status(StatusType.DELIVERED));
-                        log.info("Message delivered");
-                    } else if (Boolean.FALSE.equals(response.getBody())) {
-                        messageService.updateMessageStatus(messageId, new Status(StatusType.REJECTED));
-                        messageService.setError(messageId, new Error(ErrorType.INCORRECT_MOBILE_NUMBER));
-                        log.info("Phone number was Rejected");
-                    }
-                    break;
-
-                default:
-                    messageService.updateMessageStatus(messageId, new Status(StatusType.UNKNOWN));
-                    messageService.setError(messageId, new Error(ErrorType.EXTERNAL_SERVER_ERROR));
-                    log.info(Objects.requireNonNull(response.getBody()).toString());
-                    break;
-            }
+            processResponse(messageId, response);
 
         } catch (Exception e) {
             messageService.updateMessageStatus(messageId, new Status(StatusType.UNDELIVERED));
             messageService.setError(messageId, new Error(ErrorType.SERVER_NOT_AVAILABLE, e));
             log.error("Exception: " + e);
+        }
+    }
+
+    private void processResponse(String messageId, ResponseEntity<StatusDto> response){
+
+        switch (response.getStatusCode()) {
+            case OK:
+                if (!response.hasBody()) {
+                    break;
+                }
+
+                if (response.getBody().getError() == null) {
+                    messageService.setError(messageId, response.getBody().getError());
+                    log.info("Phone number was Rejected");
+                    break;
+                }
+
+                messageService.updateMessageStatus(messageId, response.getBody().getStatus());
+                log.info("Message delivered");
+                break;
+
+            default:
+                messageService.updateMessageStatus(messageId, new Status(StatusType.UNKNOWN));
+                messageService.setError(messageId, new Error(ErrorType.EXTERNAL_SERVER_ERROR));
+                log.info(Objects.requireNonNull(response.getBody()).toString());
+                break;
         }
     }
 }

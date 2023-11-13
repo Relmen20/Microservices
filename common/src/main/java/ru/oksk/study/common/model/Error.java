@@ -17,8 +17,6 @@ public class Error {
         this.message = errorType.name();
     }
 
-
-
     public int getCode() {
         return code;
     }
