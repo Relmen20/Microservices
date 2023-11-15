@@ -3,21 +3,22 @@ package ru.oksk.study.common.dto;
 import ru.oksk.study.common.model.Error;
 import ru.oksk.study.common.model.Status;
 
-import java.time.LocalTime;
-
-public class StatusDto {
+public class EmulatorResponseDto {
 
     private Status status;
     private Error error;
 
-    public StatusDto(Status status, Error error){
-        this.error = error;
+    public EmulatorResponseDto() {
+    }
+
+    public EmulatorResponseDto(Status status)
+    {
+        this.error = new Error();
         this.status = status;
     }
 
-    public StatusDto(Status status)
-    {
-        this.error = null;
+    public EmulatorResponseDto(Status status, Error error){
+        this.error = error;
         this.status = status;
     }
 

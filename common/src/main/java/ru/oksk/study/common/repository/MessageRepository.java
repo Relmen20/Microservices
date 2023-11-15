@@ -1,10 +1,10 @@
 package ru.oksk.study.common.repository;
 
+import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.data.mongodb.repository.Query;
 import org.springframework.data.mongodb.repository.Update;
-import ru.oksk.study.common.entity.MessageEntity;
-import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
+import ru.oksk.study.common.entity.MessageEntity;
 import ru.oksk.study.common.model.Error;
 import ru.oksk.study.common.model.Status;
 

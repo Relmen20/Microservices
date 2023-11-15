@@ -1,13 +1,12 @@
 package ru.oksk.study.sms.server.service;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import ru.oksk.study.sms.server.dto.AddressDto;
 import ru.oksk.study.sms.server.mapper.AddressMapper;
 import ru.oksk.study.sms.server.repository.AddressRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
-
 import java.util.stream.Collectors;
 
 @Service

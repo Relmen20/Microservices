@@ -1,20 +1,14 @@
 package ru.oksk.study.sms.blacklist.validator.service;
 
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.ResponseEntity;
-import ru.oksk.study.common.dto.MutableSessionMessageDto;
-import ru.oksk.study.common.dto.StatusDto;
-import ru.oksk.study.common.model.Error;
-import ru.oksk.study.common.model.ErrorType;
-import ru.oksk.study.common.model.Status;
-import ru.oksk.study.common.model.StatusType;
-import ru.oksk.study.common.service.MessageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import ru.oksk.study.common.dto.EmulatorOutputDto;
+import ru.oksk.study.common.dto.EmulatorResponseDto;
+import ru.oksk.study.common.model.Error;
+import ru.oksk.study.common.model.*;
+import ru.oksk.study.common.service.MessageService;
 import ru.oksk.study.sms.blacklist.validator.web.SmsBlacklistFeignClient;
 
-import java.util.Objects;
 
 @Slf4j
 @Service
@@ -35,7 +29,7 @@ public class ProcessService {
         this.messageService = messageService;
     }
 
-    public void processMutableDto(MutableSessionMessageDto mutableSessionMessageDto) {
+    public void processMutableDto(EntityTransportMessage entityTransportMessage) {
 
 
         //TODO: проверка того что метод работает в новом потоке
@@ -52,70 +46,55 @@ public class ProcessService {
 //            log.error(e.getMessage());
 //        }
 
-        String messageId = mutableSessionMessageDto.getId();
+        String messageId = entityTransportMessage.getId();
         try {
 
-            boolean isInOperatorBL = checkInOperatorBlackList(mutableSessionMessageDto);
-            boolean isInOriginatorBL = checkInOriginatorBlackList(mutableSessionMessageDto);
+            boolean isInOperatorBL = checkInOperatorBlackList(entityTransportMessage);
+            boolean isInOriginatorBL = checkInOriginatorBlackList(entityTransportMessage);
 
             if (isInOperatorBL) {
+                messageService.updateMessageStatus(messageId, new Status(StatusType.UNDELIVERED));
+                messageService.setError(messageId, new Error(ErrorType.BANNED_BY_OPERATOR));
                 log.info("Message baned by operator blacklist");
                 return;
             } else if (isInOriginatorBL) {
+                messageService.updateMessageStatus(messageId, new Status(StatusType.UNDELIVERED));
+                messageService.setError(messageId, new Error(ErrorType.BANNED_BY_ORIGINATOR));
                 log.info("Message baned by originator blacklist");
                 return;
             }
 
             messageService.updateMessageStatus(messageId, new Status(StatusType.SUBMITTED));
 
-            sendToEmulator(mutableSessionMessageDto);
+            sendToEmulator(entityTransportMessage);
 
         } catch (Exception e) {
             log.error("Exception " + e);
         }
     }
 
-    private boolean checkInOperatorBlackList(MutableSessionMessageDto mutableSessionMessageDto) {
+    private boolean checkInOperatorBlackList(EntityTransportMessage entityTransportMessage) {
 
-        String messageId = mutableSessionMessageDto.getId();
-        int operatorId = mutableSessionMessageDto.getOperatorId();
+        int operatorId = entityTransportMessage.getOperatorId();
 
-        if (operatorBLService.findByOperatorId(operatorId) != null) {
-            messageService.updateMessageStatus(messageId, new Status(StatusType.UNDELIVERED));
-            messageService.setError(messageId, new Error(ErrorType.BANNED_BY_OPERATOR));
-            return true;
-        }
-        return false;
+        return operatorBLService.findByOperatorId(operatorId) != null;
     }
 
-    private boolean checkInOriginatorBlackList(MutableSessionMessageDto mutableSessionMessageDto) {
+    private boolean checkInOriginatorBlackList(EntityTransportMessage entityTransportMessage) {
 
-        String messageId = mutableSessionMessageDto.getId();
-        int originatorId = mutableSessionMessageDto.getOriginatorId();
+        int originatorId = entityTransportMessage.getOriginatorId();
 
-        if (originatorBLService.findByOriginatorId(originatorId) != null) {
-            messageService.updateMessageStatus(messageId, new Status(StatusType.UNDELIVERED));
-            messageService.setError(messageId, new Error(ErrorType.BANNED_BY_ORIGINATOR));
-            return true;
-        }
-        return false;
+        return originatorBLService.findByOriginatorId(originatorId) != null;
     }
 
-    private void sendToEmulator(MutableSessionMessageDto mutableSessionMessageDto) {
+    private void sendToEmulator(EntityTransportMessage entityTransportMessage) {
 
-        String messageId = mutableSessionMessageDto.getId();
-        ResponseEntity<StatusDto> response;
+        String messageId = entityTransportMessage.getId();
+        EmulatorResponseDto response;
 
         try {
-            // TODO: вынести логику преобразования из метода отправки запроса
-            //  + обработка ошибок по валидации номера телефона и конвертация его в LONG
-            EmulatorOutputDto emulatorOutputDto = new EmulatorOutputDto.Builder()
-                    .withPhone(mutableSessionMessageDto.getPhone())
-                    .withMessage(mutableSessionMessageDto.getText())
-                    .withOriginatorId(mutableSessionMessageDto.getOriginatorId())
-                    .build();
 
-            response = smsBlacklistFeignClient.startEmulatorPoint(mutableSessionMessageDto.getUri(), emulatorOutputDto);
+            response = smsBlacklistFeignClient.sendToEmulator(entityTransportMessage.getUri(), entityTransportMessage);
 
             processResponse(messageId, response);
 
@@ -126,29 +105,20 @@ public class ProcessService {
         }
     }
 
-    private void processResponse(String messageId, ResponseEntity<StatusDto> response){
+    private void processResponse(String messageId, EmulatorResponseDto status){
 
-        switch (response.getStatusCode()) {
-            case OK:
-                if (!response.hasBody()) {
-                    break;
-                }
-
-                if (response.getBody().getError() == null) {
-                    messageService.setError(messageId, response.getBody().getError());
-                    log.info("Phone number was Rejected");
-                    break;
-                }
-
-                messageService.updateMessageStatus(messageId, response.getBody().getStatus());
-                log.info("Message delivered");
-                break;
-
-            default:
-                messageService.updateMessageStatus(messageId, new Status(StatusType.UNKNOWN));
-                messageService.setError(messageId, new Error(ErrorType.EXTERNAL_SERVER_ERROR));
-                log.info(Objects.requireNonNull(response.getBody()).toString());
-                break;
+        if (status == null) {
+            throw new RuntimeException("status == null");
         }
+
+        messageService.updateMessageStatus(messageId, status.getStatus());
+
+        if (status.getError().getCode() != 0) {
+            messageService.setError(messageId, status.getError());
+            log.info("Phone number was Rejected");
+            return;
+        }
+
+        log.info("Message delivered");
     }
 }

@@ -1,10 +1,10 @@
 package ru.oksk.study.sms.blacklist.validator.controller;
 
-import ru.oksk.study.sms.blacklist.validator.dto.OriginatorBLDto;
-import ru.oksk.study.sms.blacklist.validator.service.OriginatorBLService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import ru.oksk.study.sms.blacklist.validator.dto.OriginatorBLDto;
+import ru.oksk.study.sms.blacklist.validator.service.OriginatorBLService;
 
 import java.util.List;
 

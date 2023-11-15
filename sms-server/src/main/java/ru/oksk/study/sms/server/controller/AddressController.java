@@ -1,10 +1,10 @@
 package ru.oksk.study.sms.server.controller;
 
-import ru.oksk.study.sms.server.dto.AddressDto;
-import ru.oksk.study.sms.server.service.AddressService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import ru.oksk.study.sms.server.dto.AddressDto;
+import ru.oksk.study.sms.server.service.AddressService;
 
 import java.util.ArrayList;
 import java.util.List;

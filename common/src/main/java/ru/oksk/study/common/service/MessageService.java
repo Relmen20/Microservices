@@ -1,13 +1,14 @@
 package ru.oksk.study.common.service;
 
-import ru.oksk.study.common.model.Error;
-import ru.oksk.study.common.model.Status;
-import ru.oksk.study.common.repository.MessageRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import ru.oksk.study.common.dto.MessageDto;
 import ru.oksk.study.common.entity.MessageEntity;
 import ru.oksk.study.common.mapper.MessageMapper;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import ru.oksk.study.common.model.EntityTransportMessage;
+import ru.oksk.study.common.model.Error;
+import ru.oksk.study.common.model.Status;
+import ru.oksk.study.common.repository.MessageRepository;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -35,6 +36,11 @@ public class MessageService {
 
     public String save(MessageDto messageDto) {
         MessageEntity entity = messageMapper.messageDtoToEntity(messageDto);
+        return messageRepository.save(entity).getId();
+    }
+
+    public String save(EntityTransportMessage entityTransportMessage) {
+        MessageEntity entity = messageMapper.entityTransportMessageToEntity(entityTransportMessage);
         return messageRepository.save(entity).getId();
     }
 

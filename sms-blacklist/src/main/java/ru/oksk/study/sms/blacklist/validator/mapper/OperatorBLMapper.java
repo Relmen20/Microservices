@@ -1,8 +1,8 @@
 package ru.oksk.study.sms.blacklist.validator.mapper;
 
+import org.springframework.stereotype.Component;
 import ru.oksk.study.sms.blacklist.validator.dto.OperatorBLDto;
 import ru.oksk.study.sms.blacklist.validator.entity.OperatorBLEntity;
-import org.springframework.stereotype.Component;
 
 @Component
 public class OperatorBLMapper {

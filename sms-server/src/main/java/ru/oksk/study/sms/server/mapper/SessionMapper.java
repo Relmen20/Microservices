@@ -1,10 +1,14 @@
 package ru.oksk.study.sms.server.mapper;
 
-import ru.oksk.study.sms.server.entity.SessionEntity;
-import ru.oksk.study.sms.server.model.PriorityType;
-import ru.oksk.study.sms.server.dto.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import ru.oksk.study.common.model.EntityTransportMessage;
+import ru.oksk.study.sms.server.dto.AddressDto;
+import ru.oksk.study.sms.server.dto.OperatorDto;
+import ru.oksk.study.sms.server.dto.ProviderDto;
+import ru.oksk.study.sms.server.dto.SessionDto;
+import ru.oksk.study.sms.server.entity.SessionEntity;
+import ru.oksk.study.sms.server.model.PriorityType;
 
 @Component
 public class SessionMapper {
@@ -38,7 +42,6 @@ public class SessionMapper {
             sessionEntity.setId(sessionDto.getId());
             sessionEntity.setSessionName(sessionDto.getSessionName());
             sessionEntity.setPriorityType(PriorityType.valueOf(sessionDto.getPriorityType()));
-
             sessionEntity.setProvider(providerMapper.providerDtoToEntity(providerDto,addressDto));
             sessionEntity.setOperator(operatorMapper.operatorDtoToEntity(operatorDto));
             return sessionEntity;
@@ -47,14 +50,14 @@ public class SessionMapper {
         }
     }
 
-    public SessionValidateDto sessionEntityToSessionValidateDto(SessionEntity sessionEntity) {
+    public EntityTransportMessage sessionEntityToMessageTransport(SessionEntity sessionEntity) {
         if(sessionEntity != null){
-            SessionValidateDto sessionValidateDto = new SessionValidateDto();
-            sessionValidateDto.setAddress(sessionEntity.getProvider().getAddressEntity().getAddress());
-            sessionValidateDto.setSessionName(sessionEntity.getSessionName());
-            sessionValidateDto.setOperatorId(sessionEntity.getOperator().getId());
-            sessionValidateDto.setPort(sessionEntity.getProvider().getAddressEntity().getPort());
-            return sessionValidateDto;
+            EntityTransportMessage entityTransportMessage = new EntityTransportMessage();
+            entityTransportMessage.setAddress(sessionEntity.getProvider().getAddressEntity().getAddress());
+            entityTransportMessage.setSessionName(sessionEntity.getSessionName());
+            entityTransportMessage.setOperatorId(sessionEntity.getOperator().getId());
+            entityTransportMessage.setPort(sessionEntity.getProvider().getAddressEntity().getPort());
+            return entityTransportMessage;
         }else{
             return null;
         }

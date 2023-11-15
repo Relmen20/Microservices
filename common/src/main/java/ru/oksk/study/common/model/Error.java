@@ -6,10 +6,13 @@ public class Error {
     private String message;
     private String exceptionCause;
 
+    public Error() {
+    }
+
     public Error(ErrorType errorType, Exception exception) {
         this.code = errorType.getCode();
         this.message = errorType.name();
-        this.exceptionCause = exception.getCause() == null ? exception.getMessage() : exception.getCause().getClass().toString();
+        this.exceptionCause = exception.getMessage();
     }
 
     public Error(ErrorType errorType) {
@@ -31,5 +34,13 @@ public class Error {
 
     public void setMessage(String message) {
         this.message = message;
+    }
+
+    public String getExceptionCause() {
+        return exceptionCause;
+    }
+
+    public void setExceptionCause(String exceptionCause) {
+        this.exceptionCause = exceptionCause;
     }
 }

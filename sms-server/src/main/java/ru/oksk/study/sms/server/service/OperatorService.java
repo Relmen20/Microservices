@@ -1,10 +1,10 @@
 package ru.oksk.study.sms.server.service;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import ru.oksk.study.sms.server.dto.OperatorDto;
 import ru.oksk.study.sms.server.mapper.OperatorMapper;
 import ru.oksk.study.sms.server.repository.OperatorRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.stream.Collectors;

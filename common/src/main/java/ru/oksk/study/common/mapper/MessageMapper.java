@@ -1,8 +1,9 @@
 package ru.oksk.study.common.mapper;
 
-import ru.oksk.study.common.entity.MessageEntity;
-import ru.oksk.study.common.dto.MessageDto;
 import org.springframework.stereotype.Component;
+import ru.oksk.study.common.dto.MessageDto;
+import ru.oksk.study.common.entity.MessageEntity;
+import ru.oksk.study.common.model.EntityTransportMessage;
 
 
 @Component
@@ -39,5 +40,22 @@ public class MessageMapper {
                 .withStatusHistory(messageDto.getStatusHistory())
                 .withError(messageDto.getErrorMessage())
                 .build();
+    }
+
+    public MessageEntity entityTransportMessageToEntity(EntityTransportMessage entityTransportMessage){
+        if(entityTransportMessage == null){
+            return null;
+        }
+
+        return new MessageEntity.Builder()
+                .withId(entityTransportMessage.getId())
+                .withPhone(entityTransportMessage.getPhone())
+                .withText(entityTransportMessage.getText())
+                .withOriginatorId(entityTransportMessage.getOriginatorId())
+                .withOperatorId(entityTransportMessage.getOperatorId())
+                .withSessionName(entityTransportMessage.getSessionName())
+                .withStatusHistory(entityTransportMessage.getStatusHistory())
+                .build();
+
     }
 }

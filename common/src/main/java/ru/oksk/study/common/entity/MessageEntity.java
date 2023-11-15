@@ -1,10 +1,10 @@
 package ru.oksk.study.common.entity;
 
 import com.mongodb.lang.Nullable;
-import ru.oksk.study.common.model.Error;
-import ru.oksk.study.common.model.Status;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
+import ru.oksk.study.common.model.Error;
+import ru.oksk.study.common.model.Status;
 
 import java.util.List;
 

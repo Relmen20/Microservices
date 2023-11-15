@@ -1,13 +1,13 @@
 package ru.oksk.study.emulate.services.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import ru.oksk.study.common.dto.EmulatorOutputDto;
-import ru.oksk.study.common.dto.StatusDto;
+import ru.oksk.study.common.dto.EmulatorResponseDto;
+import ru.oksk.study.common.model.Error;
+import ru.oksk.study.common.model.*;
 import ru.oksk.study.emulate.services.service.EmulatorService;
 
 @RestController
@@ -22,17 +22,18 @@ public class EmulatorController {
     }
 
     @PostMapping
-    public ResponseEntity<StatusDto> startEmulatorPoint(@RequestBody EmulatorOutputDto emulatorOutputDto){
+    public EmulatorResponseDto startEmulatorPoint(@RequestBody EntityTransportMessage entityTransportMessage){
         try{
-            if(emulatorOutputDto.getPhone() == null){
-                return ResponseEntity.badRequest().build();
+            if(entityTransportMessage.getPhone() == null){
+                return new EmulatorResponseDto(new Status(StatusType.REJECTED),
+                                    new Error(ErrorType.INCORRECT_MOBILE_NUMBER));
             }
 
-            StatusDto statusAfterCheck = emulatorService.checkAvailability(emulatorOutputDto);
+            EmulatorResponseDto statusAfterCheck = emulatorService.checkAvailability(entityTransportMessage);
 
-            return ResponseEntity.ok(statusAfterCheck);
+            return statusAfterCheck;
         }catch(Exception e){
-            return ResponseEntity.internalServerError().build();
+            return null;
         }
     }
 }

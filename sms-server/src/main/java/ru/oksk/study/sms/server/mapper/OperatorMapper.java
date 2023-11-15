@@ -1,8 +1,8 @@
 package ru.oksk.study.sms.server.mapper;
 
+import org.springframework.stereotype.Component;
 import ru.oksk.study.sms.server.dto.OperatorDto;
 import ru.oksk.study.sms.server.entity.OperatorEntity;
-import org.springframework.stereotype.Component;
 
 @Component
 public class OperatorMapper {

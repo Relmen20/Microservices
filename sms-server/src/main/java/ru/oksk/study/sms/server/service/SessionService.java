@@ -1,10 +1,14 @@
 package ru.oksk.study.sms.server.service;
 
-import ru.oksk.study.sms.server.mapper.SessionMapper;
-import ru.oksk.study.sms.server.repository.SessionRepository;
-import ru.oksk.study.sms.server.dto.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import ru.oksk.study.common.model.EntityTransportMessage;
+import ru.oksk.study.sms.server.dto.AddressDto;
+import ru.oksk.study.sms.server.dto.OperatorDto;
+import ru.oksk.study.sms.server.dto.ProviderDto;
+import ru.oksk.study.sms.server.dto.SessionDto;
+import ru.oksk.study.sms.server.mapper.SessionMapper;
+import ru.oksk.study.sms.server.repository.SessionRepository;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -49,7 +53,7 @@ public class SessionService {
         sessionRepository.deleteById(id);
     }
 
-    public SessionValidateDto findBySessionName(String sessionName) {
-        return sessionMapper.sessionEntityToSessionValidateDto(sessionRepository.findBySessionName(sessionName));
+    public EntityTransportMessage findBySessionName(String sessionName) {
+        return sessionMapper.sessionEntityToMessageTransport(sessionRepository.findBySessionName(sessionName));
     }
 }
