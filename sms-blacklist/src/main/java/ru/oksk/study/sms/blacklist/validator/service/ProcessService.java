@@ -29,7 +29,7 @@ public class ProcessService {
         this.messageService = messageService;
     }
 
-    public void processMutableDto(EntityTransportMessage entityTransportMessage) {
+    public void processTransportMessage(EntityTransportMessage entityTransportMessage) {
 
 
         //TODO: проверка того что метод работает в новом потоке

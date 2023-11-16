@@ -11,6 +11,8 @@ import ru.oksk.study.sms.server.dto.ClientMessageDto;
 import ru.oksk.study.sms.server.service.ProcessService;
 
 import javax.validation.Valid;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
 
 @Slf4j
 @RestController
@@ -18,19 +20,20 @@ import javax.validation.Valid;
 public class MessageController {
 
     private final ProcessService processService;
+    private final Executor processControllerExecutor;
 
     @Autowired
     public MessageController(ProcessService processService) {
         this.processService = processService;
+        this.processControllerExecutor = Executors.newSingleThreadExecutor();
     }
 
     @PostMapping
     public ResponseEntity<String> startPoint(@Valid @RequestBody ClientMessageDto clientMessageDto){
         try{
+            processControllerExecutor.execute(() -> processService.handleClientMessage(clientMessageDto));
             log.info("Valid clientMessageDto --> " + clientMessageDto.toString());
-            ResponseEntity<String> response = processService.handleClientMessage(clientMessageDto);
-            log.info("Response --> " + response.getStatusCode());
-            return response;
+            return ResponseEntity.ok("");
         }catch(Exception e){
             log.error("Exception: " + e);
             return ResponseEntity.internalServerError().build();

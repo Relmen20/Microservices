@@ -11,5 +11,5 @@ import ru.oksk.study.common.model.EntityTransportMessage;
 public interface SmsServiceFeignClient {
 
     @RequestMapping(method = RequestMethod.POST, value = "${service.sms-blacklist.endpoint}")
-    ResponseEntity<String> sendToBlacklist(@RequestBody EntityTransportMessage mutableSessionMessageDto);
+    void sendToBlacklist(@RequestBody EntityTransportMessage mutableSessionMessageDto);
 }

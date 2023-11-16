@@ -2,7 +2,6 @@ package ru.oksk.study.sms.blacklist.validator.controller;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -28,25 +27,25 @@ public class MessageController {
     }
 
     @PostMapping
-    public ResponseEntity<String> startBlackListPoint(@RequestBody EntityTransportMessage entityTransportMessage){
+    public void startBlackListPoint(@RequestBody EntityTransportMessage entityTransportMessage){
 
         try{
-            if(!validateMutableDto(entityTransportMessage)){
+            if(!validateTransportDto(entityTransportMessage)){
                 log.info("Not valid DTO come to service");
-                return ResponseEntity.badRequest().build();
+//                return ResponseEntity.badRequest().build();
             }
 
             log.info("Valid DTO --> " + entityTransportMessage);
-            processExecutor.execute(() -> processService.processMutableDto(entityTransportMessage));
-            return ResponseEntity.ok("");
+            processExecutor.execute(() -> processService.processTransportMessage(entityTransportMessage));
+//            return ResponseEntity.ok("");
 
         }catch(Exception e){
             log.error("Exception " + e);
-            return ResponseEntity.internalServerError().build();
+//            return ResponseEntity.internalServerError().build();
         }
     }
 
-    private boolean validateMutableDto(EntityTransportMessage entityTransportMessage) {
+    private boolean validateTransportDto(EntityTransportMessage entityTransportMessage) {
         return entityTransportMessage.getOperatorId() != 0 &&
                 entityTransportMessage.getSessionName() != null &&
                 entityTransportMessage.getText() != null &&

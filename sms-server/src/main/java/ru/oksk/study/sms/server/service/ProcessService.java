@@ -14,6 +14,8 @@ import ru.oksk.study.sms.server.web.SmsServiceFeignClient;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
 
 @Slf4j
 @Service
@@ -22,6 +24,7 @@ public class ProcessService {
     private final MessageService messageService;
     private final SessionService sessionService;
     private final SmsServiceFeignClient smsServiceFeignClient;
+    private final Executor processServiceExecutor;
 
     @Autowired
     public ProcessService(MessageService messageService,
@@ -30,9 +33,10 @@ public class ProcessService {
         this.messageService = messageService;
         this.sessionService = sessionService;
         this.smsServiceFeignClient = smsServiceFeignClient;
+        this.processServiceExecutor = Executors.newSingleThreadExecutor();
     }
 
-    public ResponseEntity<String> handleClientMessage(ClientMessageDto clientMessageDto) {
+    public void handleClientMessage(ClientMessageDto clientMessageDto) {
         try{
             EntityTransportMessage entityTransportMessage = sessionService.findBySessionName(clientMessageDto.getSessionName());
             log.info("Validate by Postgres --> " + entityTransportMessage.toString());
@@ -45,10 +49,10 @@ public class ProcessService {
 
             entityTransportMessage.setId(newId);
 
-            return smsServiceFeignClient.sendToBlacklist(entityTransportMessage);
+            processServiceExecutor.execute(() -> smsServiceFeignClient.sendToBlacklist(entityTransportMessage));
+
         }catch(Exception e){
             log.error("Exception: " + e);
-            return ResponseEntity.internalServerError().build();
         }
     }
 
