@@ -2,11 +2,14 @@ package ru.oksk.study.sms.server.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import ru.oksk.study.common.model.EntityTransportMessage;
+import ru.oksk.study.common.dto.MessageDto;
+import ru.oksk.study.common.entity.MessageEntity;
+import ru.oksk.study.common.model.SmsDto;
 import ru.oksk.study.sms.server.dto.AddressDto;
 import ru.oksk.study.sms.server.dto.OperatorDto;
 import ru.oksk.study.sms.server.dto.ProviderDto;
 import ru.oksk.study.sms.server.dto.SessionDto;
+import ru.oksk.study.sms.server.entity.SessionEntity;
 import ru.oksk.study.sms.server.mapper.SessionMapper;
 import ru.oksk.study.sms.server.repository.SessionRepository;
 
@@ -32,7 +35,8 @@ public class SessionService {
     }
 
     public SessionDto findById(int id){
-        return sessionMapper.sessionEntityToDto(sessionRepository.findById(id).orElse(null));
+        SessionEntity sessionEntity = sessionRepository.findById(id).orElse(null);
+        return sessionMapper.sessionEntityToDto(sessionEntity);
     }
 
     public List<SessionDto> findAll(){
@@ -53,7 +57,8 @@ public class SessionService {
         sessionRepository.deleteById(id);
     }
 
-    public EntityTransportMessage findBySessionName(String sessionName) {
-        return sessionMapper.sessionEntityToMessageTransport(sessionRepository.findBySessionName(sessionName));
+    public SessionEntity findBySessionName(String sessionName) {
+        return sessionRepository.findBySessionName(sessionName);
     }
+
 }

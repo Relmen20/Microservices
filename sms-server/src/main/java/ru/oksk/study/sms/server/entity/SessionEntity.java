@@ -7,7 +7,6 @@ import javax.persistence.*;
 @Entity
 @Table(name = "sessions")
 public class SessionEntity {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
@@ -22,7 +21,8 @@ public class SessionEntity {
     @Column(name = "session_name")
     private String sessionName;
 
-    public SessionEntity(){}
+    public SessionEntity() {
+    }
 
     public SessionEntity(int id, OperatorEntity operatorEntity, PriorityType priorityType, ProviderEntity providerEntity, String sessionName) {
         this.id = id;

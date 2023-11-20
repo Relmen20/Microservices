@@ -1,11 +1,11 @@
 #!/bin/bash
 
-traficVolume=3000
+trafficVolume=${1:-10}
 
-phone=89453360482
+phone=${2:-89134904534}
 
-originatorId_start=1
-originatorId_end=5
+originatorId_start=${3:-1}
+originatorId_end=${4:-5}
 originatorId_range=$(($originatorId_end - $originatorId_start))
 
 sessionNames=("FirstSession" "SecondSession" "ThirdSession")
@@ -25,7 +25,7 @@ send_request() {
          -d "$jsonBody"
 }
 
-for (( i=0; i<traficVolume; i++ ))
+for (( i=0; i<trafficVolume; i++ ))
 do
     originatorId=$(($originatorId_start + $i % ($originatorId_range + 1)))
 

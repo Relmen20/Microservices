@@ -21,6 +21,8 @@ public class OriginatorBLMapper {
             return null;
         }
         OriginatorsBLEntity originatorsBLEntity = new OriginatorsBLEntity();
+        //FIXME: нет маппирнга айдишника
+        originatorsBLEntity.setId(originatorBLDto.getId());
         originatorsBLEntity.setOriginatorId(originatorBLDto.getOriginatorId());
         return originatorsBLEntity;
     }

@@ -15,7 +15,7 @@ public class MessageEntity {
     private String id;
     private String phone;
     private String text;
-    private int originatorId;
+    private String originatorId;
     private int operatorId;
     private String sessionName;
     private List<Status> statusHistory;
@@ -49,11 +49,11 @@ public class MessageEntity {
         this.text = text;
     }
 
-    public int getOriginatorId() {
+    public String getOriginatorId() {
         return originatorId;
     }
 
-    public void setOriginatorId(int originatorId) {
+    public void setOriginatorId(String originatorId) {
         this.originatorId = originatorId;
     }
 
@@ -94,7 +94,7 @@ public class MessageEntity {
         private String id;
         private String phone;
         private String text;
-        private int originatorId;
+        private String originatorId;
         private int operatorId;
         private String sessionName;
         private List<Status> statusHistory;
@@ -117,7 +117,7 @@ public class MessageEntity {
             return this;
         }
 
-        public Builder withOriginatorId(int originatorId) {
+        public Builder withOriginatorId(String originatorId) {
             this.originatorId = originatorId;
             return this;
         }

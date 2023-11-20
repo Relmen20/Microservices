@@ -2,7 +2,9 @@ package ru.oksk.study.sms.server.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import ru.oksk.study.sms.server.dto.AddressDto;
 import ru.oksk.study.sms.server.dto.ProviderDto;
+import ru.oksk.study.sms.server.entity.ProviderEntity;
 import ru.oksk.study.sms.server.mapper.ProviderMapper;
 import ru.oksk.study.sms.server.repository.ProviderRepository;
 
@@ -31,12 +33,15 @@ public class ProviderService {
     }
 
     public ProviderDto findById(int id){
-        return providerMapper.providerEntityToDto(providerRepository.findById(id).orElse(null));
+        ProviderEntity providerEntity = providerRepository.findById(id).orElse(null);
+        return providerMapper.providerEntityToDto(providerEntity);
     }
 
     public int save(ProviderDto providerDto){
-        return providerRepository.save(providerMapper.providerDtoToEntity(providerDto,
-                addressService.findById(providerDto.getAddressId()))).getId();
+        int providerAddressId = providerDto.getAddressId();
+        AddressDto addressDto = addressService.findById(providerAddressId);
+        ProviderEntity providerEntity = providerMapper.providerDtoToEntity(providerDto, addressDto);
+        return providerRepository.save(providerEntity).getId();
     }
 
     public void deleteById(int id){

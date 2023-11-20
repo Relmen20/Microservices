@@ -3,6 +3,7 @@ package ru.oksk.study.sms.blacklist.validator.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.oksk.study.sms.blacklist.validator.dto.OperatorBLDto;
+import ru.oksk.study.sms.blacklist.validator.entity.OperatorBLEntity;
 import ru.oksk.study.sms.blacklist.validator.mapper.OperatorBLMapper;
 import ru.oksk.study.sms.blacklist.validator.repository.OperatorBLRepository;
 
@@ -22,11 +23,15 @@ public class OperatorBLService {
     }
 
     public OperatorBLDto findById(String id){
-        return operatorBLMapper.operatorBLEntityToDto(operatorBLRepository.findById(id).orElse(null));
+        //FIXME: Слишком длинный метод
+        OperatorBLEntity operatorBLEntity = operatorBLRepository.findById(id).orElse(null);
+        return operatorBLMapper.operatorBLEntityToDto(operatorBLEntity);
     }
 
     public OperatorBLDto findByOperatorId(int operatorId){
-        return operatorBLMapper.operatorBLEntityToDto(operatorBLRepository.findByOperatorId(operatorId));
+        //FIXME: Слишком длинный метод
+        OperatorBLEntity operatorBLEntity = operatorBLRepository.findByOperatorId(operatorId);
+        return operatorBLMapper.operatorBLEntityToDto(operatorBLEntity);
     }
 
     public List<OperatorBLDto> findAll(){
@@ -36,7 +41,9 @@ public class OperatorBLService {
     }
 
     public String save(OperatorBLDto operatorBLDto){
-        return operatorBLRepository.save(operatorBLMapper.operatorBLDtoToEntity(operatorBLDto)).getId();
+        //FIXME: Слишком длинный метод
+        OperatorBLEntity operatorBLEntity = operatorBLMapper.operatorBLDtoToEntity(operatorBLDto);
+        return operatorBLRepository.save(operatorBLEntity).getId();
     }
 
     public void deleteById(String id){

@@ -1,21 +1,20 @@
 package ru.oksk.study.sms.server.controller;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.oksk.study.sms.server.dto.AddressDto;
 import ru.oksk.study.sms.server.service.AddressService;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Slf4j
 @RestController
 @RequestMapping("/api/address")
 public class AddressController {
-
     private final AddressService addressService;
-
     @Autowired
     public AddressController(AddressService addressService) {
         this.addressService = addressService;
@@ -26,6 +25,8 @@ public class AddressController {
         try {
             return ResponseEntity.ok(addressService.findAll());
         } catch (Exception e) {
+            //FIXME что упало - непонятно, ошибка теряется
+            log.error("Exception " + e);
             return ResponseEntity.internalServerError().build();
         }
     }
@@ -40,6 +41,8 @@ public class AddressController {
                 return ResponseEntity.notFound().build();
             }
         } catch (Exception e) {
+            //FIXME что упало - непонятно, ошибка теряется
+            log.error("Exception " + e);
             return ResponseEntity.internalServerError().build();
         }
     }
@@ -52,6 +55,8 @@ public class AddressController {
             }
             return ResponseEntity.badRequest().build();
         } catch (Exception e) {
+            //FIXME что упало - непонятно, ошибка теряется
+            log.error("Exception " + e);
             return ResponseEntity.internalServerError().build();
         }
     }
@@ -66,9 +71,12 @@ public class AddressController {
             }
             return ResponseEntity.ok(addressService.save(addressDto));
         } catch (Exception e) {
+            //FIXME что упало - непонятно, ошибка теряется
+            log.error("Exception " + e);
             return ResponseEntity.internalServerError().build();
         }
     }
+
     // comment
     @DeleteMapping(path = "/{id}")
     public ResponseEntity<Integer> deleteById(@PathVariable int id) {
@@ -81,6 +89,8 @@ public class AddressController {
                 return ResponseEntity.notFound().build();
             }
         } catch (Exception e) {
+            //FIXME что упало - непонятно, ошибка теряется
+            log.error("Exception " + e);
             return ResponseEntity.internalServerError().build();
         }
     }
@@ -92,16 +102,19 @@ public class AddressController {
     }
 
     @PostMapping(path = "/all")
-    public ResponseEntity<List<Integer>> createAll(@RequestBody ArrayList<AddressDto> listAddressDto){
-        try{
-            if(listAddressDto.isEmpty()){
+//    listAddressDto --> addressDtos
+    public ResponseEntity<List<Integer>> createAll(@RequestBody ArrayList<AddressDto> listAddressDto) {
+        try {
+            if (listAddressDto.isEmpty()) {
                 return ResponseEntity.badRequest().build();
             }
             return ResponseEntity.ok(listAddressDto.stream()
                     .filter(addressDto -> validateAddressDto(addressDto) && addressDto.getId() == 0)
                     .map(addressService::save)
                     .collect(Collectors.toList()));
-        }catch(Exception e){
+        } catch (Exception e) {
+            //FIXME что упало - непонятно, ошибка теряется
+            log.error("Exception " + e);
             return ResponseEntity.internalServerError().build();
         }
     }

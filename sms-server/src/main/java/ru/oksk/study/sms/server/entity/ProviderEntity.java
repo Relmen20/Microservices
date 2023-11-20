@@ -10,9 +10,8 @@ public class ProviderEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    @OneToOne(cascade = CascadeType.MERGE, fetch = FetchType.EAGER) //#TODO состояния сущностей в hibernate и CascadeType
+    @OneToOne(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
     @JoinColumn(name = "address_id", referencedColumnName = "id")
-//    @OnDelete(action = CascadeType.ALL)
     private AddressEntity addressEntity;
     @Column(name = "provider_name")
     private String providerName;
@@ -21,7 +20,8 @@ public class ProviderEntity {
     @OneToMany(mappedBy = "providerEntity", cascade = CascadeType.ALL)
     private List<SessionEntity> sessionEntityList;
 
-    public ProviderEntity(){}
+    public ProviderEntity() {
+    }
 
     public ProviderEntity(int id, AddressEntity addressEntity, String providerName, String email) {
         this.id = id;

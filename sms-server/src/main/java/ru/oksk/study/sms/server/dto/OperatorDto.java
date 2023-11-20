@@ -1,9 +1,7 @@
 package ru.oksk.study.sms.server.dto;
 
 public class OperatorDto {
-
     private int id;
-
     private String operatorName;
 
     public int getId() {

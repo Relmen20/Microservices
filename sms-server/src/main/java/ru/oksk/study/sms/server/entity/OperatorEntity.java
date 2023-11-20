@@ -14,8 +14,8 @@ public class OperatorEntity {
     @OneToMany(mappedBy = "operatorEntity", cascade = CascadeType.ALL)
     private List<SessionEntity> sessionEntityList;
 
-
-    public OperatorEntity(){}
+    public OperatorEntity() {
+    }
 
     public OperatorEntity(int id, String operatorName) {
         this.id = id;

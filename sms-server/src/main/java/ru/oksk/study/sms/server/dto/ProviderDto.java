@@ -1,13 +1,9 @@
 package ru.oksk.study.sms.server.dto;
 
 public class ProviderDto {
-
     private int id;
-
     private int addressId;
-
     private String providerName;
-
     private String email;
 
     public int getId() {

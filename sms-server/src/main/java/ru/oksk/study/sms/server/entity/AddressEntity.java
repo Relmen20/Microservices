@@ -13,7 +13,8 @@ public class AddressEntity {
     @Column(name = "address", nullable = false)
     private String address;
 
-    public AddressEntity(){}
+    public AddressEntity() {
+    }
 
     public AddressEntity(int id, int port, String address) {
         this.id = id;

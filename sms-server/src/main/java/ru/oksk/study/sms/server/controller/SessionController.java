@@ -1,5 +1,6 @@
 package ru.oksk.study.sms.server.controller;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -12,11 +13,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Slf4j
 @RestController
 @RequestMapping(path = "/api/session")
 @Validated
 public class SessionController {
-
     private final SessionService sessionService;
 
     @Autowired
@@ -25,90 +26,102 @@ public class SessionController {
     }
 
     @GetMapping
-    public ResponseEntity<List<SessionDto>> findAllSession(){
+    public ResponseEntity<List<SessionDto>> findAllSession() {
         try {
             return ResponseEntity.ok(sessionService.findAll());
-        }catch(Exception e){
+        } catch (Exception e) {
+            //FIXME что упало - непонятно, ошибка теряется
+            log.error("Exception " + e);
             return ResponseEntity.internalServerError().build();
         }
     }
 
     @GetMapping("{id}")
-    public ResponseEntity<SessionDto> findById(@PathVariable int id){
-        try{
+    public ResponseEntity<SessionDto> findById(@PathVariable int id) {
+        try {
             SessionDto sessionDto = sessionService.findById(id);
-            if(sessionDto != null){
+            if (sessionDto != null) {
                 return ResponseEntity.ok(sessionDto);
-            }else{
+            } else {
                 return ResponseEntity.notFound().build();
             }
-        }catch(Exception e){
+        } catch (Exception e) {
+            //FIXME что упало - непонятно, ошибка теряется
+            log.error("Exception " + e);
             return ResponseEntity.internalServerError().build();
         }
     }
 
     @PostMapping
-    public ResponseEntity<Integer> createSession(@RequestBody SessionDto sessionDto){
-        try{
-            if(sessionDto.getId() == 0 && validateSessionDto(sessionDto)){
+    public ResponseEntity<Integer> createSession(@RequestBody SessionDto sessionDto) {
+        try {
+            if (sessionDto.getId() == 0 && validateSessionDto(sessionDto)) {
                 return ResponseEntity.ok(sessionService.save(sessionDto));
             }
             return ResponseEntity.badRequest().build();
-        }catch(Exception e){
-            e.printStackTrace();
+        } catch (Exception e) {
+            //FIXME что упало - непонятно, ошибка теряется
+            log.error("Exception " + e);
             return ResponseEntity.internalServerError().build();
         }
     }
 
     @PutMapping
-    public ResponseEntity<Integer> updateSession(@RequestBody SessionDto sessionDto){
-        try{
-            if(sessionService.findById(sessionDto.getId()) == null){
+    public ResponseEntity<Integer> updateSession(@RequestBody SessionDto sessionDto) {
+        try {
+            if (sessionService.findById(sessionDto.getId()) == null) {
                 return ResponseEntity.notFound().build();
-            }else if(!validateSessionDto(sessionDto)){
+            } else if (!validateSessionDto(sessionDto)) {
                 return ResponseEntity.badRequest().build();
             }
             return ResponseEntity.ok(sessionService.save(sessionDto));
-        }catch(Exception e){
+        } catch (Exception e) {
+            //FIXME что упало - непонятно, ошибка теряется
+            log.error("Exception " + e);
             return ResponseEntity.internalServerError().build();
         }
     }
 
     @DeleteMapping("{id}")
-    public ResponseEntity<Integer> deleteById(@PathVariable int id){
-        try{
+    public ResponseEntity<Integer> deleteById(@PathVariable int id) {
+        try {
             SessionDto sessionDto = sessionService.findById(id);
-            if(sessionDto != null){
+            if (sessionDto != null) {
                 sessionService.deleteById(id);
                 return ResponseEntity.ok(id);
-            }else{
+            } else {
                 return ResponseEntity.notFound().build();
             }
-        }catch(Exception e){
+        } catch (Exception e) {
+            //FIXME что упало - непонятно, ошибка теряется
+            log.error("Exception " + e);
             return ResponseEntity.internalServerError().build();
         }
     }
 
     @PostMapping(path = "/all")
-    public ResponseEntity<List<Integer>> createAll(@RequestBody ArrayList<SessionDto> listSessionDto){
-        try{
-            if(listSessionDto.isEmpty()){
+    public ResponseEntity<List<Integer>> createAll(@RequestBody ArrayList<SessionDto> listSessionDto) {
+        try {
+            if (listSessionDto.isEmpty()) {
                 return ResponseEntity.badRequest().build();
             }
             return ResponseEntity.ok(listSessionDto.stream()
                     .filter(sessionDto -> validateSessionDto(sessionDto) && sessionDto.getId() == 0)
                     .map(sessionService::save)
                     .collect(Collectors.toList()));
-        }catch(Exception e){
+        } catch (Exception e) {
+            //FIXME что упало - непонятно, ошибка теряется
+            log.error("Exception " + e);
             return ResponseEntity.internalServerError().build();
         }
     }
 
+    //FIXME: Условие ниже слишком сложно читать
     private boolean validateSessionDto(SessionDto sessionDto) {
-    return sessionDto.getOperatorId() != 0  &&
-            sessionDto.getProviderId() != 0 &&
-            sessionDto.getSessionName() != null &&
-            (sessionDto.getPriorityType().equals(PriorityType.DEFAULT.name()) ||
-             (sessionDto.getPriorityType().equals(PriorityType.VIP.name())));
+        return sessionDto.getOperatorId() != 0 &&
+                sessionDto.getProviderId() != 0 &&
+                sessionDto.getSessionName() != null &&
+                (sessionDto.getPriorityType().equals(PriorityType.DEFAULT.name()) ||
+                        (sessionDto.getPriorityType().equals(PriorityType.VIP.name())));
     }
 }

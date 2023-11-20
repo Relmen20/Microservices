@@ -3,6 +3,7 @@ package ru.oksk.study.sms.blacklist.validator.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.oksk.study.sms.blacklist.validator.dto.OriginatorBLDto;
+import ru.oksk.study.sms.blacklist.validator.entity.OriginatorsBLEntity;
 import ru.oksk.study.sms.blacklist.validator.mapper.OriginatorBLMapper;
 import ru.oksk.study.sms.blacklist.validator.repository.OriginatorBLRepository;
 
@@ -21,8 +22,9 @@ public class OriginatorBLService {
         this.originatorBLMapper = originatorBLMapper;
     }
 
-    public OriginatorBLDto findByOriginatorId(int id){
-        return originatorBLMapper.originatorBLEntityToDto(originatorBLRepository.findByOriginatorId(id));
+    public OriginatorBLDto findByOriginatorId(String id){
+        OriginatorsBLEntity originatorsBLEntity = originatorBLRepository.findByOriginatorId(id);
+        return originatorBLMapper.originatorBLEntityToDto(originatorsBLEntity);
     }
 
     public List<OriginatorBLDto> findAll() {
@@ -32,11 +34,13 @@ public class OriginatorBLService {
     }
 
     public OriginatorBLDto findById(String id) {
-        return originatorBLMapper.originatorBLEntityToDto(originatorBLRepository.findById(id).orElse(null));
+        OriginatorsBLEntity originatorsBLEntity = originatorBLRepository.findById(id).orElse(null);
+        return originatorBLMapper.originatorBLEntityToDto(originatorsBLEntity);
     }
 
     public String save(OriginatorBLDto originatorBLDto) {
-        return originatorBLRepository.save(originatorBLMapper.originatorBLDtoToEntity(originatorBLDto)).getId();
+        OriginatorsBLEntity originatorsBLEntity = originatorBLMapper.originatorBLDtoToEntity(originatorBLDto);
+        return originatorBLRepository.save(originatorsBLEntity).getId();
     }
 
     public void deleteById(String id){

@@ -7,5 +7,5 @@ import ru.oksk.study.sms.blacklist.validator.entity.OriginatorsBLEntity;
 @Repository
 public interface OriginatorBLRepository extends MongoRepository<OriginatorsBLEntity, String> {
 
-    OriginatorsBLEntity findByOriginatorId(int originatorId);
+    OriginatorsBLEntity findByOriginatorId(String originatorId);
 }

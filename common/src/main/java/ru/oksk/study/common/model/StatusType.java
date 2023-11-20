@@ -1,6 +1,6 @@
 package ru.oksk.study.common.model;
 
-public enum StatusType { //TODO Add code and description?
+public enum StatusType {
     CREATE,
     SUBMITTED,
     DELIVERED,

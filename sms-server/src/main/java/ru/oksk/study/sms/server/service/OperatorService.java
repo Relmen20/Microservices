@@ -3,6 +3,7 @@ package ru.oksk.study.sms.server.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.oksk.study.sms.server.dto.OperatorDto;
+import ru.oksk.study.sms.server.entity.OperatorEntity;
 import ru.oksk.study.sms.server.mapper.OperatorMapper;
 import ru.oksk.study.sms.server.repository.OperatorRepository;
 
@@ -28,11 +29,13 @@ public class OperatorService {
     }
 
     public OperatorDto findById(int id){
-        return operatorMapper.operatorEntityToDto(operatorRepository.findById(id).orElse(null));
+        OperatorEntity operatorEntity = operatorRepository.findById(id).orElse(null);
+        return operatorMapper.operatorEntityToDto(operatorEntity);
     }
 
     public int save(OperatorDto operatorDto){
-        return operatorRepository.save(operatorMapper.operatorDtoToEntity(operatorDto)).getId();
+        OperatorEntity operatorEntity = operatorMapper.operatorDtoToEntity(operatorDto);
+        return operatorRepository.save(operatorEntity).getId();
     }
 
     public void deleteById(int id){

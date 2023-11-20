@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import ru.oksk.study.common.model.EntityTransportMessage;
+import ru.oksk.study.common.model.SmsDto;
 import ru.oksk.study.sms.blacklist.validator.service.ProcessService;
 
 import java.util.concurrent.Executor;
@@ -16,7 +16,6 @@ import java.util.concurrent.Executors;
 @RestController
 @RequestMapping("/api/message")
 public class MessageController {
-
     private final ProcessService processService;
     private final Executor processExecutor;
 
@@ -27,30 +26,24 @@ public class MessageController {
     }
 
     @PostMapping
-    public void startBlackListPoint(@RequestBody EntityTransportMessage entityTransportMessage){
-
-        try{
-            if(!validateTransportDto(entityTransportMessage)){
-                log.info("Not valid DTO come to service");
-//                return ResponseEntity.badRequest().build();
+    public void startBlackListPoint(@RequestBody SmsDto smsDto) {
+        try {
+            if(!validateTransportDto(smsDto)){
+                log.info("Not valid DTO with id {} come to service", smsDto.getId());
             }
-
-            log.info("Valid DTO --> " + entityTransportMessage);
-            processExecutor.execute(() -> processService.processTransportMessage(entityTransportMessage));
-//            return ResponseEntity.ok("");
-
+            log.info("Valid DTO: " + smsDto);
+            processExecutor.execute(() -> processService.processTransportMessage(smsDto));
         }catch(Exception e){
             log.error("Exception " + e);
-//            return ResponseEntity.internalServerError().build();
         }
     }
 
-    private boolean validateTransportDto(EntityTransportMessage entityTransportMessage) {
-        return entityTransportMessage.getOperatorId() != 0 &&
-                entityTransportMessage.getSessionName() != null &&
-                entityTransportMessage.getText() != null &&
-                entityTransportMessage.getPhone() != null &&
-                entityTransportMessage.getOriginatorId() != 0 &&
-                entityTransportMessage.getUri() != null;
+    private boolean validateTransportDto(SmsDto smsDto) {
+        return smsDto.getOperatorId() != 0 &&
+                smsDto.getSessionName() != null &&
+                smsDto.getText() != null &&
+                smsDto.getPhone() != null &&
+                smsDto.getOriginatorId() != null &&
+                smsDto.getUri() != null;
     }
 }

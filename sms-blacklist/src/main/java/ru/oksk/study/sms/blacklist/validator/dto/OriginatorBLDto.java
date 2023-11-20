@@ -1,6 +1,7 @@
 package ru.oksk.study.sms.blacklist.validator.dto;
 
 public class OriginatorBLDto {
+
     private String id;
     private int originatorId;
 

@@ -3,6 +3,8 @@ package ru.oksk.study.sms.blacklist.validator.entity;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.util.ArrayList;
+
 @Document(value = "operatorBLackList")
 public class OperatorBLEntity {
 
@@ -14,7 +16,6 @@ public class OperatorBLEntity {
     }
 
     public String getId() {
-
         return id;
     }
 
@@ -29,4 +30,5 @@ public class OperatorBLEntity {
     public void setOperatorId(int operatorId) {
         this.operatorId = operatorId;
     }
+
 }

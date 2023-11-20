@@ -1,11 +1,8 @@
 package ru.oksk.study.sms.server.dto;
 
-public class AddressDto{
-
+public class AddressDto {
     private int id;
-
     private int port;
-
     private String address;
 
     public int getId() {

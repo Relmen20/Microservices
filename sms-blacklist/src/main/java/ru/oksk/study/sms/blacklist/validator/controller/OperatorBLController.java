@@ -1,5 +1,6 @@
 package ru.oksk.study.sms.blacklist.validator.controller;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -9,6 +10,7 @@ import ru.oksk.study.sms.blacklist.validator.service.ProcessService;
 
 import java.util.List;
 
+@Slf4j
 @RestController
 @RequestMapping("/api/operatorBL")
 public class OperatorBLController {
@@ -25,6 +27,8 @@ public class OperatorBLController {
         try{
             return ResponseEntity.ok(operatorBLService.findAll());
         }catch(Exception e){
+            //FIXME что упало - непонятно, ошибка теряется
+            log.error("Exception " + e);
             return ResponseEntity.internalServerError().build();
         }
     }
@@ -38,6 +42,8 @@ public class OperatorBLController {
             }
             return ResponseEntity.ok(operatorBLDto);
         }catch(Exception e){
+            //FIXME что упало - непонятно, ошибка теряется
+            log.error("Exception " + e);
             return ResponseEntity.internalServerError().build();
         }
     }
@@ -50,6 +56,8 @@ public class OperatorBLController {
             }
             return ResponseEntity.ok(operatorBLService.save(operatorBLDto));
         }catch(Exception e){
+            //FIXME что упало - непонятно, ошибка теряется
+            log.error("Exception " + e);
             return ResponseEntity.internalServerError().build();
         }
     }
@@ -64,6 +72,8 @@ public class OperatorBLController {
             }
             return ResponseEntity.ok(operatorBLService.save(operatorBLDto));
         }catch(Exception e){
+            //FIXME что упало - непонятно, ошибка теряется
+            log.error("Exception " + e);
             return ResponseEntity.internalServerError().build();
         }
     }
@@ -74,6 +84,8 @@ public class OperatorBLController {
             operatorBLService.deleteById(id);
             return ResponseEntity.ok("");
         }catch (Exception e){
+            //FIXME что упало - непонятно, ошибка теряется
+            log.error("Exception " + e);
             return ResponseEntity.internalServerError().build();
         }
     }
