@@ -1,6 +1,5 @@
 package ru.oksk.study.common.dto;
 
-import ru.oksk.study.common.model.SmsDto;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Null;

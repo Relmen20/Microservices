@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import ru.oksk.study.common.model.SmsDto;
+import ru.oksk.study.common.dto.SmsDto;
 import ru.oksk.study.sms.blacklist.validator.service.ProcessService;
 
 import java.util.concurrent.Executor;

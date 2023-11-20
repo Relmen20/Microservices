@@ -5,7 +5,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import ru.oksk.study.common.dto.EmulatorResponseDto;
-import ru.oksk.study.common.model.SmsDto;
+import ru.oksk.study.common.dto.SmsDto;
 
 import java.net.URI;
 

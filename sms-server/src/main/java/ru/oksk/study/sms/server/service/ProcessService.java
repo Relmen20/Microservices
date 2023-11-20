@@ -5,7 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.oksk.study.common.dto.MessageDto;
 import ru.oksk.study.common.dto.SMS;
-import ru.oksk.study.common.model.SmsDto;
+import ru.oksk.study.common.dto.SmsDto;
 import ru.oksk.study.sms.server.exception.NullSessionException;
 import ru.oksk.study.sms.server.web.SmsServiceFeignClient;
 

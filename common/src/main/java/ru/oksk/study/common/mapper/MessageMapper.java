@@ -3,7 +3,6 @@ package ru.oksk.study.common.mapper;
 import org.springframework.stereotype.Component;
 import ru.oksk.study.common.dto.MessageDto;
 import ru.oksk.study.common.entity.MessageEntity;
-import ru.oksk.study.common.model.SmsDto;
 
 
 @Component

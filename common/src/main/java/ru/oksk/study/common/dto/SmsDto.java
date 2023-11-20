@@ -1,4 +1,4 @@
-package ru.oksk.study.common.model;
+package ru.oksk.study.common.dto;
 
 import ru.oksk.study.common.dto.SMS;
 

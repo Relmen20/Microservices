@@ -7,7 +7,6 @@ import ru.oksk.study.common.dto.MessageDto;
 import ru.oksk.study.common.dto.SMS;
 import ru.oksk.study.common.entity.MessageEntity;
 import ru.oksk.study.common.mapper.MessageMapper;
-import ru.oksk.study.common.model.SmsDto;
 import ru.oksk.study.common.model.Status;
 import ru.oksk.study.common.model.StatusType;
 import ru.oksk.study.common.repository.MessageRepository;

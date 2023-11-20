@@ -2,9 +2,6 @@ package ru.oksk.study.sms.server.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import ru.oksk.study.common.dto.MessageDto;
-import ru.oksk.study.common.entity.MessageEntity;
-import ru.oksk.study.common.model.SmsDto;
 import ru.oksk.study.sms.server.dto.AddressDto;
 import ru.oksk.study.sms.server.dto.OperatorDto;
 import ru.oksk.study.sms.server.dto.ProviderDto;

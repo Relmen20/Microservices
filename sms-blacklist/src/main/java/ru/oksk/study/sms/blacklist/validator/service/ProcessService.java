@@ -4,6 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.oksk.study.common.dto.EmulatorResponseDto;
+import ru.oksk.study.common.dto.SmsDto;
 import ru.oksk.study.common.model.Error;
 import ru.oksk.study.common.model.*;
 import ru.oksk.study.sms.blacklist.validator.web.SmsBlacklistFeignClient;
