@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import ru.oksk.study.common.dto.ExternalTransportSms;
 import ru.oksk.study.common.dto.SMS;
 import ru.oksk.study.sms.server.exception.NullSessionException;
 import ru.oksk.study.sms.server.service.ProcessService;
@@ -28,14 +29,12 @@ public class MessageController {
     }
 
     @PostMapping
-    //FIXME: receiveIncomeMassage
-    public ResponseEntity<String> receiveIncomeMassage(@Valid @RequestBody SMS sms) {
+    public ResponseEntity<String> receiveIncomeMassage(@Valid @RequestBody ExternalTransportSms externalTransportSms) {
         try {
-            processControllerExecutor.execute(() -> processService.handleSMS(sms));
-            log.info("Valid sms: " + sms.toString());
+            processControllerExecutor.execute(() -> processService.handleSMS(externalTransportSms));
+            log.info("Valid sms: " + externalTransportSms.toString());
             return ResponseEntity.ok("");
         } catch (Exception e) {
-            ////FIXME: код ошибки неинформативный
             log.error("Exception: " + e);
             return ResponseEntity.internalServerError().build();
         }

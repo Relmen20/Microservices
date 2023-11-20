@@ -16,7 +16,7 @@ public interface MessageRepository extends MongoRepository<MessageEntity, String
     void updateStatus(String id, Status status);
 
     @Query("{'id': ?0}")
-    @Update("{{'$push': {'statusHistory': ?1}, '$set': {'errorMessage': ?2}}}")
+    @Update("{'$push': {'statusHistory': ?1}, '$set': {'errorMessage': ?2}}")
     void updateStatus(String id, Status status, Error error);
 
 }

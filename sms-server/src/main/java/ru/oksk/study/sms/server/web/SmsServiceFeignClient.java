@@ -4,11 +4,12 @@ import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import ru.oksk.study.common.dto.SmsDto;
+import ru.oksk.study.common.dto.ExternalTransportSms;
+import ru.oksk.study.common.dto.SMS;
 
 @FeignClient(url = "${service.sms-blacklist.url}", name = "sms-blacklist")
 public interface SmsServiceFeignClient {
 
     @RequestMapping(method = RequestMethod.POST, value = "${service.sms-blacklist.endpoint}")
-    void sendToBlacklist(@RequestBody SmsDto smsDto);
+    void sendToBlacklist(@RequestBody ExternalTransportSms externalTransportSms);
 }

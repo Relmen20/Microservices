@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import ru.oksk.study.common.dto.SmsDto;
+import ru.oksk.study.common.dto.ExternalTransportSms;
 import ru.oksk.study.sms.blacklist.validator.service.ProcessService;
 
 import java.util.concurrent.Executor;
@@ -26,24 +26,24 @@ public class MessageController {
     }
 
     @PostMapping
-    public void startBlackListPoint(@RequestBody SmsDto smsDto) {
+    public void startBlackListPoint(@RequestBody ExternalTransportSms externalTransportSms) {
         try {
-            if(!validateTransportDto(smsDto)){
-                log.info("Not valid DTO with id {} come to service", smsDto.getId());
+            if(!validateTransportDto(externalTransportSms)){
+                log.info("Not valid DTO with id {} come to service", externalTransportSms.getId());
             }
-            log.info("Valid DTO: " + smsDto);
-            processExecutor.execute(() -> processService.processTransportMessage(smsDto));
+            log.info("Valid DTO: " + externalTransportSms);
+            processExecutor.execute(() -> processService.processTransportMessage(externalTransportSms));
         }catch(Exception e){
             log.error("Exception " + e);
         }
     }
 
-    private boolean validateTransportDto(SmsDto smsDto) {
-        return smsDto.getOperatorId() != 0 &&
-                smsDto.getSessionName() != null &&
-                smsDto.getText() != null &&
-                smsDto.getPhone() != null &&
-                smsDto.getOriginatorId() != null &&
-                smsDto.getUri() != null;
+    private boolean validateTransportDto(ExternalTransportSms externalTransportSms) {
+        return externalTransportSms.getOperatorId() != 0 &&
+                externalTransportSms.getSessionName() != null &&
+                externalTransportSms.getText() != null &&
+                externalTransportSms.getPhone() != null &&
+                externalTransportSms.getOriginatorId() != null &&
+                externalTransportSms.getUri() != null;
     }
 }

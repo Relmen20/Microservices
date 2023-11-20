@@ -3,7 +3,8 @@ package ru.oksk.study.sms.server.service;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import ru.oksk.study.common.dto.MessageDto;
+import ru.oksk.study.common.dto.ExternalTransportSms;
+import ru.oksk.study.common.dto.InnerAppSms;
 import ru.oksk.study.common.dto.SMS;
 import ru.oksk.study.common.entity.MessageEntity;
 import ru.oksk.study.common.mapper.MessageMapper;
@@ -29,31 +30,31 @@ public class MessageService {
         this.sessionService = sessionService;
     }
 
-    public MessageDto processSmsBySessionName(SMS sms) throws NullSessionException {
-        String sessionName = sms.getSessionName();
+    public InnerAppSms processSmsBySessionName(ExternalTransportSms externalTransportSms) throws NullSessionException {
+        String sessionName = externalTransportSms.getSessionName();
         SessionEntity sessionEntity = sessionService.findBySessionName(sessionName);
         if (sessionEntity == null) {
             throw new NullSessionException();
         }
-        log.info("Validate by Postgres: " + sms);
-        return mergeToMessageDto(sessionEntity, sms);
+        log.info("Validate by Postgres: " + externalTransportSms);
+        return mergeToInnerAppSms(sessionEntity, externalTransportSms);
     }
 
-    private MessageDto mergeToMessageDto(SessionEntity sessionEntity, SMS sms) {
-        MessageDto messageDto = SMS.createMessageDto(sms);
-        messageDto.setPort(sessionEntity.getProvider().getAddressEntity().getPort());
-        messageDto.setAddress(sessionEntity.getProvider().getAddressEntity().getAddress());
-        messageDto.setOperatorId(sessionEntity.getOperator().getId());
-        messageDto.setStatusHistory(new ArrayList<>() {{
+    private InnerAppSms mergeToInnerAppSms(SessionEntity sessionEntity, ExternalTransportSms externalTransportSms) {
+        InnerAppSms innerAppSms = SMS.createInnerAppSmsFromExternalTransportSms(externalTransportSms);
+        innerAppSms.setPort(sessionEntity.getProvider().getAddressEntity().getPort());
+        innerAppSms.setAddress(sessionEntity.getProvider().getAddressEntity().getAddress());
+        innerAppSms.setOperatorId(sessionEntity.getOperator().getId());
+        innerAppSms.setStatusHistory(new ArrayList<>() {{
             add(new Status(StatusType.CREATE));
         }});
-        return messageDto;
+        return innerAppSms;
     }
 
-    public void saveMessageInMongo(MessageDto messageDto) {
-        MessageEntity entity = messageMapper.messageDtoToEntity(messageDto);
+    public void saveMessageInMongodb(InnerAppSms innerAppSms) {
+        MessageEntity entity = messageMapper.innerAppSmsToEntity(innerAppSms);
         String messageId = messageRepository.save(entity).getId();
-        messageDto.setId(messageId);
+        innerAppSms.setId(messageId);
         log.info("Entity saved in mongodb with id: " + messageId);
     }
 }

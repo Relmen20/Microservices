@@ -23,13 +23,11 @@ public class OperatorBLService {
     }
 
     public OperatorBLDto findById(String id){
-        //FIXME: Слишком длинный метод
         OperatorBLEntity operatorBLEntity = operatorBLRepository.findById(id).orElse(null);
         return operatorBLMapper.operatorBLEntityToDto(operatorBLEntity);
     }
 
     public OperatorBLDto findByOperatorId(int operatorId){
-        //FIXME: Слишком длинный метод
         OperatorBLEntity operatorBLEntity = operatorBLRepository.findByOperatorId(operatorId);
         return operatorBLMapper.operatorBLEntityToDto(operatorBLEntity);
     }
@@ -41,7 +39,6 @@ public class OperatorBLService {
     }
 
     public String save(OperatorBLDto operatorBLDto){
-        //FIXME: Слишком длинный метод
         OperatorBLEntity operatorBLEntity = operatorBLMapper.operatorBLDtoToEntity(operatorBLDto);
         return operatorBLRepository.save(operatorBLEntity).getId();
     }

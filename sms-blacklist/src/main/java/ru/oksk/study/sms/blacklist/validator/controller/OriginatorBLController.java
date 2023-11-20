@@ -26,7 +26,6 @@ public class OriginatorBLController {
         try{
             return ResponseEntity.ok(originatorBLService.findAll());
         }catch(Exception e){
-            //FIXME что упало - непонятно, ошибка теряется
             log.error("Exception " + e);
             return ResponseEntity.internalServerError().build();
         }
@@ -41,7 +40,6 @@ public class OriginatorBLController {
             }
             return ResponseEntity.ok(originatorBLDto);
         }catch(Exception e){
-            //FIXME что упало - непонятно, ошибка теряется
             log.error("Exception " + e);
             return ResponseEntity.internalServerError().build();
         }
@@ -49,12 +47,11 @@ public class OriginatorBLController {
     @PostMapping
     public ResponseEntity<String> createOriginatorBL(@RequestBody OriginatorBLDto originatorBLDto){
         try{
-            if(!validateOriginatorBLDto(originatorBLDto) || originatorBLDto.getId() != null){
+            if(validateOriginatorBLDto(originatorBLDto) || originatorBLDto.getId() != null){
                 return ResponseEntity.badRequest().build();
             }
             return ResponseEntity.ok(originatorBLService.save(originatorBLDto));
         }catch(Exception e){
-            //FIXME что упало - непонятно, ошибка теряется
             log.error("Exception " + e);
             return ResponseEntity.internalServerError().build();
         }
@@ -63,14 +60,13 @@ public class OriginatorBLController {
     @PutMapping
     public ResponseEntity<String> updateOriginatorBL(@RequestBody OriginatorBLDto originatorBLDto){
         try{
-            if(!validateOriginatorBLDto(originatorBLDto)){
+            if(validateOriginatorBLDto(originatorBLDto)){
                 return ResponseEntity.badRequest().build();
             } else if (originatorBLService.findById(originatorBLDto.getId()) == null) {
                 return ResponseEntity.notFound().build();
             }
             return ResponseEntity.ok(originatorBLService.save(originatorBLDto));
         }catch(Exception e){
-            //FIXME что упало - непонятно, ошибка теряется
             log.error("Exception " + e);
             return ResponseEntity.internalServerError().build();
         }
@@ -82,13 +78,12 @@ public class OriginatorBLController {
             originatorBLService.deleteById(id);
             return ResponseEntity.ok("");
         }catch (Exception e){
-            //FIXME что упало - непонятно, ошибка теряется
             log.error("Exception " + e);
             return ResponseEntity.internalServerError().build();
         }
     }
 
     private boolean validateOriginatorBLDto(OriginatorBLDto originatorBLDto){
-        return originatorBLDto.getOriginatorId() != 0;
+        return originatorBLDto.getOriginatorId() == 0;
     }
 }

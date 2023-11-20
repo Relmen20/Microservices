@@ -25,7 +25,6 @@ public class AddressController {
         try {
             return ResponseEntity.ok(addressService.findAll());
         } catch (Exception e) {
-            //FIXME что упало - непонятно, ошибка теряется
             log.error("Exception " + e);
             return ResponseEntity.internalServerError().build();
         }
@@ -41,7 +40,6 @@ public class AddressController {
                 return ResponseEntity.notFound().build();
             }
         } catch (Exception e) {
-            //FIXME что упало - непонятно, ошибка теряется
             log.error("Exception " + e);
             return ResponseEntity.internalServerError().build();
         }
@@ -55,7 +53,6 @@ public class AddressController {
             }
             return ResponseEntity.badRequest().build();
         } catch (Exception e) {
-            //FIXME что упало - непонятно, ошибка теряется
             log.error("Exception " + e);
             return ResponseEntity.internalServerError().build();
         }
@@ -71,13 +68,11 @@ public class AddressController {
             }
             return ResponseEntity.ok(addressService.save(addressDto));
         } catch (Exception e) {
-            //FIXME что упало - непонятно, ошибка теряется
             log.error("Exception " + e);
             return ResponseEntity.internalServerError().build();
         }
     }
 
-    // comment
     @DeleteMapping(path = "/{id}")
     public ResponseEntity<Integer> deleteById(@PathVariable int id) {
         try {
@@ -89,7 +84,6 @@ public class AddressController {
                 return ResponseEntity.notFound().build();
             }
         } catch (Exception e) {
-            //FIXME что упало - непонятно, ошибка теряется
             log.error("Exception " + e);
             return ResponseEntity.internalServerError().build();
         }
@@ -102,7 +96,6 @@ public class AddressController {
     }
 
     @PostMapping(path = "/all")
-//    listAddressDto --> addressDtos
     public ResponseEntity<List<Integer>> createAll(@RequestBody ArrayList<AddressDto> listAddressDto) {
         try {
             if (listAddressDto.isEmpty()) {
@@ -113,7 +106,6 @@ public class AddressController {
                     .map(addressService::save)
                     .collect(Collectors.toList()));
         } catch (Exception e) {
-            //FIXME что упало - непонятно, ошибка теряется
             log.error("Exception " + e);
             return ResponseEntity.internalServerError().build();
         }

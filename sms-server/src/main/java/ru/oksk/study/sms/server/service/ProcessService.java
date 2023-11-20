@@ -3,12 +3,12 @@ package ru.oksk.study.sms.server.service;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import ru.oksk.study.common.dto.MessageDto;
-import ru.oksk.study.common.dto.SMS;
-import ru.oksk.study.common.dto.SmsDto;
+import ru.oksk.study.common.dto.InnerAppSms;
+import ru.oksk.study.common.dto.ExternalTransportSms;
 import ru.oksk.study.sms.server.exception.NullSessionException;
 import ru.oksk.study.sms.server.web.SmsServiceFeignClient;
 
+import java.net.URI;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
@@ -26,17 +26,22 @@ public class ProcessService {
         this.processServiceExecutor = Executors.newSingleThreadExecutor();
     }
 
-    public void handleSMS(SMS sms) {
+    public void handleSMS(ExternalTransportSms externalTransportSms) {
         try {
-            MessageDto messageDto = messageService.processSmsBySessionName(sms);
-            messageService.saveMessageInMongo(messageDto);
-            SmsDto smsDto = SMS.createSMSDtoFromMessageDto(messageDto);
-            processServiceExecutor.execute(() -> smsServiceFeignClient.sendToBlacklist(smsDto));
+            InnerAppSms innerAppSms = messageService.processSmsBySessionName(externalTransportSms);
+            messageService.saveMessageInMongodb(innerAppSms);
+            setUrl(externalTransportSms, innerAppSms);
+            processServiceExecutor.execute(() -> smsServiceFeignClient.sendToBlacklist(externalTransportSms));
         }catch(NullSessionException e){
-            log.error("Not valid session: " + sms.getSessionName());
+            log.error("Not valid session: " + externalTransportSms.getSessionName());
         }catch(Exception e){
-            //FIXME поправить error message
             log.error("Exception: " + e);
         }
+    }
+
+    private void setUrl(ExternalTransportSms externalTransportSms, InnerAppSms innerAppSms){
+        URI determinedBasePathUri = URI.create("http://" + innerAppSms.getAddress() +
+                ":" + innerAppSms.getPort());
+        externalTransportSms.setUri(determinedBasePathUri);
     }
 }

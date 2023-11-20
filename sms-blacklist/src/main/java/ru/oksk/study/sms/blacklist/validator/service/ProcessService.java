@@ -4,7 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.oksk.study.common.dto.EmulatorResponseDto;
-import ru.oksk.study.common.dto.SmsDto;
+import ru.oksk.study.common.dto.ExternalTransportSms;
 import ru.oksk.study.common.model.Error;
 import ru.oksk.study.common.model.*;
 import ru.oksk.study.sms.blacklist.validator.web.SmsBlacklistFeignClient;
@@ -26,11 +26,11 @@ public class ProcessService {
         this.messageService = messageService;
     }
 
-    public void processTransportMessage(SmsDto smsDto) {
-        String messageId = smsDto.getId();
+    public void processTransportMessage(ExternalTransportSms externalTransportSms) {
+        String messageId = externalTransportSms.getId();
         try {
-            boolean isInOperatorBL = checkInOperatorBlackList(smsDto);
-            boolean isInOriginatorBL = checkInOriginatorBlackList(smsDto);
+            boolean isInOperatorBL = checkInOperatorBlackList(externalTransportSms);
+            boolean isInOriginatorBL = checkInOriginatorBlackList(externalTransportSms);
             if (isInOperatorBL) {
                 setUndeliveredStatus(messageId, ErrorType.BANNED_BY_OPERATOR);
                 log.info("Message baned by operator blacklist");
@@ -41,7 +41,7 @@ public class ProcessService {
                 return;
             }
             messageService.updateMessageStatus(messageId, new Status(StatusType.SUBMITTED));
-            sendToEmulator(smsDto);
+            sendToEmulator(externalTransportSms);
         } catch (Exception e) {
             log.error("Exception " + e);
         }
@@ -51,21 +51,21 @@ public class ProcessService {
         messageService.updateMessageStatus(messageId, new Status(StatusType.UNDELIVERED), new Error(errorType));
     }
 
-    private boolean checkInOperatorBlackList(SmsDto smsDto) {
-        int operatorId = smsDto.getOperatorId();
+    private boolean checkInOperatorBlackList(ExternalTransportSms externalTransportSms) {
+        int operatorId = externalTransportSms.getOperatorId();
         return operatorBLService.findByOperatorId(operatorId) != null;
     }
 
-    private boolean checkInOriginatorBlackList(SmsDto smsDto) {
-        String originatorId = smsDto.getOriginatorId();
+    private boolean checkInOriginatorBlackList(ExternalTransportSms externalTransportSms) {
+        String originatorId = externalTransportSms.getOriginatorId();
         return originatorBLService.findByOriginatorId(originatorId) != null;
     }
 
-    private void sendToEmulator(SmsDto smsDto) {
-        String messageId = smsDto.getId();
+    private void sendToEmulator(ExternalTransportSms externalTransportSms) {
+        String messageId = externalTransportSms.getId();
         EmulatorResponseDto response;
         try {
-            response = smsBlacklistFeignClient.sendToEmulator(smsDto.getUri(), smsDto);
+            response = smsBlacklistFeignClient.sendToEmulator(externalTransportSms.getUri(), externalTransportSms);
             processResponse(messageId, response);
         } catch (Exception e) {
             messageService.updateMessageStatus(messageId,

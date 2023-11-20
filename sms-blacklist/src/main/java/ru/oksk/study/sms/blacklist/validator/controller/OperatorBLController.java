@@ -27,7 +27,6 @@ public class OperatorBLController {
         try{
             return ResponseEntity.ok(operatorBLService.findAll());
         }catch(Exception e){
-            //FIXME что упало - непонятно, ошибка теряется
             log.error("Exception " + e);
             return ResponseEntity.internalServerError().build();
         }
@@ -42,7 +41,6 @@ public class OperatorBLController {
             }
             return ResponseEntity.ok(operatorBLDto);
         }catch(Exception e){
-            //FIXME что упало - непонятно, ошибка теряется
             log.error("Exception " + e);
             return ResponseEntity.internalServerError().build();
         }
@@ -56,7 +54,6 @@ public class OperatorBLController {
             }
             return ResponseEntity.ok(operatorBLService.save(operatorBLDto));
         }catch(Exception e){
-            //FIXME что упало - непонятно, ошибка теряется
             log.error("Exception " + e);
             return ResponseEntity.internalServerError().build();
         }
@@ -72,7 +69,6 @@ public class OperatorBLController {
             }
             return ResponseEntity.ok(operatorBLService.save(operatorBLDto));
         }catch(Exception e){
-            //FIXME что упало - непонятно, ошибка теряется
             log.error("Exception " + e);
             return ResponseEntity.internalServerError().build();
         }
@@ -84,7 +80,6 @@ public class OperatorBLController {
             operatorBLService.deleteById(id);
             return ResponseEntity.ok("");
         }catch (Exception e){
-            //FIXME что упало - непонятно, ошибка теряется
             log.error("Exception " + e);
             return ResponseEntity.internalServerError().build();
         }

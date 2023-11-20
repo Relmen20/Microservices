@@ -12,7 +12,7 @@ import org.springframework.data.mongodb.repository.config.EnableMongoRepositorie
 @EnableMongoRepositories(basePackages = "ru.oksk.study")
 @EnableFeignClients
 @EnableDiscoveryClient
-//FIXME: BlacklistValidatorApp
+
 public class BlacklistValidatorApp {
 
 	public static void main(String[] args) {

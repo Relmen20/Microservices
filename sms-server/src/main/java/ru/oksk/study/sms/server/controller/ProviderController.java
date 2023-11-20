@@ -27,7 +27,6 @@ public class ProviderController {
         try {
             return ResponseEntity.ok(providerService.findAll());
         } catch (Exception e) {
-            //FIXME что упало - непонятно, ошибка теряется
             log.error("Exception " + e);
             return ResponseEntity.internalServerError().build();
         }
@@ -43,7 +42,6 @@ public class ProviderController {
                 return ResponseEntity.notFound().build();
             }
         } catch (Exception e) {
-            //FIXME что упало - непонятно, ошибка теряется
             log.error("Exception " + e);
             return ResponseEntity.internalServerError().build();
         }
@@ -57,7 +55,6 @@ public class ProviderController {
             }
             return ResponseEntity.badRequest().build();
         } catch (Exception e) {
-            //FIXME неверно логируется ошибки
             log.error("Exception " + e);
             return ResponseEntity.internalServerError().build();
         }
@@ -74,7 +71,6 @@ public class ProviderController {
                 return ResponseEntity.notFound().build();
             }
         } catch (Exception e) {
-            //FIXME что упало - непонятно, ошибка теряется
             log.error("Exception " + e);
             return ResponseEntity.internalServerError().build();
         }
@@ -90,7 +86,6 @@ public class ProviderController {
             }
             return ResponseEntity.ok(providerService.save(providerDto));
         } catch (Exception e) {
-            //FIXME что упало - непонятно, ошибка теряется
             log.error("Exception " + e);
             return ResponseEntity.internalServerError().build();
         }
@@ -107,7 +102,6 @@ public class ProviderController {
                     .map(providerService::save)
                     .collect(Collectors.toList()));
         } catch (Exception e) {
-            //FIXME что упало - непонятно, ошибка теряется
             log.error("Exception " + e);
             return ResponseEntity.internalServerError().build();
         }

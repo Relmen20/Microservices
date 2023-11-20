@@ -30,7 +30,6 @@ public class SessionController {
         try {
             return ResponseEntity.ok(sessionService.findAll());
         } catch (Exception e) {
-            //FIXME что упало - непонятно, ошибка теряется
             log.error("Exception " + e);
             return ResponseEntity.internalServerError().build();
         }
@@ -46,7 +45,6 @@ public class SessionController {
                 return ResponseEntity.notFound().build();
             }
         } catch (Exception e) {
-            //FIXME что упало - непонятно, ошибка теряется
             log.error("Exception " + e);
             return ResponseEntity.internalServerError().build();
         }
@@ -60,7 +58,6 @@ public class SessionController {
             }
             return ResponseEntity.badRequest().build();
         } catch (Exception e) {
-            //FIXME что упало - непонятно, ошибка теряется
             log.error("Exception " + e);
             return ResponseEntity.internalServerError().build();
         }
@@ -76,7 +73,6 @@ public class SessionController {
             }
             return ResponseEntity.ok(sessionService.save(sessionDto));
         } catch (Exception e) {
-            //FIXME что упало - непонятно, ошибка теряется
             log.error("Exception " + e);
             return ResponseEntity.internalServerError().build();
         }
@@ -93,7 +89,6 @@ public class SessionController {
                 return ResponseEntity.notFound().build();
             }
         } catch (Exception e) {
-            //FIXME что упало - непонятно, ошибка теряется
             log.error("Exception " + e);
             return ResponseEntity.internalServerError().build();
         }
@@ -110,13 +105,11 @@ public class SessionController {
                     .map(sessionService::save)
                     .collect(Collectors.toList()));
         } catch (Exception e) {
-            //FIXME что упало - непонятно, ошибка теряется
             log.error("Exception " + e);
             return ResponseEntity.internalServerError().build();
         }
     }
 
-    //FIXME: Условие ниже слишком сложно читать
     private boolean validateSessionDto(SessionDto sessionDto) {
         return sessionDto.getOperatorId() != 0 &&
                 sessionDto.getProviderId() != 0 &&

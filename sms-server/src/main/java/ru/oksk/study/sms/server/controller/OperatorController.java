@@ -26,7 +26,6 @@ public class OperatorController {
         try {
             return ResponseEntity.ok(operatorService.findAll());
         } catch (Exception e) {
-            //FIXME что упало - непонятно, ошибка теряется
             log.error("Exception " + e);
             return ResponseEntity.internalServerError().build();
         }
@@ -42,7 +41,6 @@ public class OperatorController {
                 return ResponseEntity.notFound().build();
             }
         } catch (Exception e) {
-            //FIXME что упало - непонятно, ошибка теряется
             log.error("Exception " + e);
             return ResponseEntity.internalServerError().build();
         }
@@ -56,7 +54,6 @@ public class OperatorController {
             }
             return ResponseEntity.badRequest().build();
         } catch (Exception e) {
-            //FIXME что упало - непонятно, ошибка теряется
             log.error("Exception " + e);
             return ResponseEntity.internalServerError().build();
         }
@@ -88,7 +85,6 @@ public class OperatorController {
             }
             return ResponseEntity.ok(operatorService.save(operatorDto));
         } catch (Exception e) {
-            //FIXME что упало - непонятно, ошибка теряется
             log.error("Exception " + e);
             return ResponseEntity.internalServerError().build();
         }

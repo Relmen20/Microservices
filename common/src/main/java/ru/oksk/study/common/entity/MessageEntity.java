@@ -89,7 +89,7 @@ public class MessageEntity {
         this.errorMessage = errorMessage;
     }
 
-    public static class Builder{
+    public static class Builder {
 
         private String id;
         private String phone;
@@ -99,10 +99,11 @@ public class MessageEntity {
         private String sessionName;
         private List<Status> statusHistory;
         private Error errorMessage;
+
         public Builder() {
         }
 
-        public Builder withId(String id){
+        public Builder withId(String id) {
             this.id = id;
             return this;
         }
@@ -137,7 +138,7 @@ public class MessageEntity {
             return this;
         }
 
-        public Builder withError(Error errorMessage){
+        public Builder withError(Error errorMessage) {
             this.errorMessage = errorMessage;
             return this;
         }

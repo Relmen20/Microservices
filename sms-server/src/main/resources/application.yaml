@@ -17,6 +17,10 @@ spring:
     mongodb:
       uri: mongodb://localhost:27017/mongo
 
+  output:
+    ansi:
+      enabled: ALWAYS
+
 server:
   port: 8083
 
