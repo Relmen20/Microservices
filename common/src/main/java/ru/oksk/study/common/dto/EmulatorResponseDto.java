@@ -25,4 +25,12 @@ public class EmulatorResponseDto {
         this.error = error;
         this.status = status;
     }
+
+    @Override
+    public String toString() {
+        return "EmulatorResponseDto{" +
+                "status=" + status +
+                ", error=" + error +
+                '}';
+    }
 }

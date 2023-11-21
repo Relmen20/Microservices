@@ -15,4 +15,11 @@ public class ExternalTransportSms extends SMS {
 
     public ExternalTransportSms() {
     }
+
+    @Override
+    public String toString() {
+
+        return super.toString()+ '\'' +
+                ", uri='" + uri + "}";
+    }
 }

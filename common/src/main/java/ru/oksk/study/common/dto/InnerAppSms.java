@@ -15,4 +15,13 @@ public class InnerAppSms extends SMS {
 
     public InnerAppSms() {
     }
+
+    @Override
+    public String toString() {
+
+        return super.toString()+ '\'' +
+                ", port='" + port + '\'' +
+                ", address='" + address + '\'' +
+                ", statusHistory='" + statusHistory + "}";
+    }
 }

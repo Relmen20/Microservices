@@ -29,8 +29,10 @@ public class ProcessService {
     public void handleSMS(ExternalTransportSms externalTransportSms) {
         try {
             InnerAppSms innerAppSms = messageService.processSmsBySessionName(externalTransportSms);
+            log.info("Success validate by Postgres: " + innerAppSms.toString());
             messageService.saveMessageInMongodb(innerAppSms);
             setUrl(externalTransportSms, innerAppSms);
+            log.info("Send externalTransportSms to Blacklist service");
             processServiceExecutor.execute(() -> smsServiceFeignClient.sendToBlacklist(externalTransportSms));
         }catch(NullSessionException e){
             log.error("Not valid session: " + externalTransportSms.getSessionName());
@@ -43,5 +45,7 @@ public class ProcessService {
         URI determinedBasePathUri = URI.create("http://" + innerAppSms.getAddress() +
                 ":" + innerAppSms.getPort());
         externalTransportSms.setUri(determinedBasePathUri);
+        externalTransportSms.setOperatorId(innerAppSms.getOperatorId());
+        externalTransportSms.setId(innerAppSms.getId());
     }
 }

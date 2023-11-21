@@ -32,7 +32,7 @@ public class MessageController {
     public ResponseEntity<String> receiveIncomeMassage(@Valid @RequestBody ExternalTransportSms externalTransportSms) {
         try {
             processControllerExecutor.execute(() -> processService.handleSMS(externalTransportSms));
-            log.info("Valid sms: " + externalTransportSms.toString());
+            log.info("Income sms: " + externalTransportSms.toString());
             return ResponseEntity.ok("");
         } catch (Exception e) {
             log.error("Exception: " + e);

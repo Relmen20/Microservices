@@ -27,7 +27,7 @@ public class SessionMapper {
             sessionDto.setSessionName(sessionEntity.getSessionName());
             sessionDto.setOperatorId(sessionEntity.getOperator().getId());
             sessionDto.setProviderId(sessionEntity.getProvider().getId());
-            sessionDto.setPriorityType(sessionEntity.getPriorityType().name());
+            sessionDto.setPriorityType(sessionEntity.getPriorityType());
             return sessionDto;
         } else {
             return null;
@@ -39,7 +39,7 @@ public class SessionMapper {
             SessionEntity sessionEntity = new SessionEntity();
             sessionEntity.setId(sessionDto.getId());
             sessionEntity.setSessionName(sessionDto.getSessionName());
-            sessionEntity.setPriorityType(PriorityType.valueOf(sessionDto.getPriorityType()));
+            sessionEntity.setPriorityType(sessionDto.getPriorityType());
             sessionEntity.setProvider(providerMapper.providerDtoToEntity(providerDto, addressDto));
             sessionEntity.setOperator(operatorMapper.operatorDtoToEntity(operatorDto));
             return sessionEntity;

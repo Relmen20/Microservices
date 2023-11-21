@@ -1,11 +1,12 @@
 package ru.oksk.study.sms.server.entity;
 
+import org.hibernate.annotations.Type;
 import ru.oksk.study.sms.server.model.PriorityType;
 
 import javax.persistence.*;
 
 @Entity
-@Table(name = "sessions")
+@Table(name = "sessions", schema = "testdb")
 public class SessionEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -14,6 +15,7 @@ public class SessionEntity {
     @JoinColumn(name = "operator_id", referencedColumnName = "id")
     private OperatorEntity operatorEntity;
     @Column(name = "priorityType")
+    @Enumerated(EnumType.STRING)
     private PriorityType priorityType;
     @ManyToOne
     @JoinColumn(name = "provider_id", referencedColumnName = "id")

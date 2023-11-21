@@ -29,17 +29,6 @@ public abstract class SMS {
     private String sessionName;
     private int operatorId;
 
-    public static InnerAppSms createInnerAppSms(SMS sms){
-        InnerAppSms innerAppSms = new InnerAppSms();
-        innerAppSms.setId(sms.getId());
-        innerAppSms.setSessionName(sms.getSessionName());
-        innerAppSms.setPhone(sms.getPhone());
-        innerAppSms.setText(sms.getText());
-        innerAppSms.setOriginatorId(sms.getOriginatorId());
-        innerAppSms.setOperatorId(sms.getOperatorId());
-        return innerAppSms;
-    }
-
     public static InnerAppSms createInnerAppSmsFromExternalTransportSms(ExternalTransportSms externalTransportSms) {
         InnerAppSms innerAppSms = new InnerAppSms();
         innerAppSms.setId(externalTransportSms.getId());
@@ -53,12 +42,11 @@ public abstract class SMS {
 
     @Override
     public String toString() {
-        return "SMS{" +
-                "id='" + id + '\'' +
+        return "{ id='" + id + '\'' +
                 ", phone='" + phone + '\'' +
                 ", originatorId='" + originatorId + '\'' +
                 ", text='" + text + '\'' +
                 ", sessionName='" + sessionName + '\'' +
-                '}';
+                ", operatorId='" + operatorId;
     }
 }

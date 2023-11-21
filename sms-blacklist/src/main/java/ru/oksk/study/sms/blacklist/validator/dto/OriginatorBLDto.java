@@ -3,14 +3,9 @@ package ru.oksk.study.sms.blacklist.validator.dto;
 public class OriginatorBLDto {
 
     private String id;
-    private int originatorId;
+    private String originatorId;
 
-    public int getOriginatorId() {
-        return originatorId;
-    }
-
-    public void setOriginatorId(int originatorId) {
-        this.originatorId = originatorId;
+    public OriginatorBLDto() {
     }
 
     public String getId() {
@@ -19,5 +14,13 @@ public class OriginatorBLDto {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public String getOriginatorId() {
+        return originatorId;
+    }
+
+    public void setOriginatorId(String originatorId) {
+        this.originatorId = originatorId;
     }
 }

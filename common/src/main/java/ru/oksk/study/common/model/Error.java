@@ -43,4 +43,13 @@ public class Error {
     public void setExceptionCause(String exceptionCause) {
         this.exceptionCause = exceptionCause;
     }
+
+    @Override
+    public String toString() {
+        return "Error{" +
+                "code=" + code +
+                ", message='" + message + '\'' +
+                ", exceptionCause='" + exceptionCause + '\'' +
+                '}';
+    }
 }

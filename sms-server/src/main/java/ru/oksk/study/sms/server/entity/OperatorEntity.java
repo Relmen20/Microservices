@@ -4,15 +4,15 @@ import javax.persistence.*;
 import java.util.List;
 
 @Entity
-@Table(name = "operator")
+@Table(name = "operator", schema = "testdb")
 public class OperatorEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     @Column(name = "operator_name")
     private String operatorName;
-    @OneToMany(mappedBy = "operatorEntity", cascade = CascadeType.ALL)
-    private List<SessionEntity> sessionEntityList;
+//    @OneToMany(mappedBy = "operatorEntity", cascade = CascadeType.ALL)
+//    private List<SessionEntity> sessionEntityList;
 
     public OperatorEntity() {
     }
@@ -38,20 +38,10 @@ public class OperatorEntity {
         this.operatorName = operatorName;
     }
 
-    public List<SessionEntity> getSessionEntityList() {
-        return sessionEntityList;
-    }
-
-    public void setSessionEntityList(List<SessionEntity> sessionEntityList) {
-        this.sessionEntityList = sessionEntityList;
-    }
-
     @Override
     public String toString() {
         return "OperatorEntity{" +
                 "id=" + id +
-                ", operatorName='" + operatorName + '\'' +
-                ", sessionEntityList=" + sessionEntityList +
-                '}';
+                ", operatorName='" + operatorName + '\'' + '}';
     }
 }

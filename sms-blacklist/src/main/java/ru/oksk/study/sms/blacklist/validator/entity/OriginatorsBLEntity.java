@@ -8,7 +8,8 @@ public class OriginatorsBLEntity {
 
     @Id
     private String id;
-    private int originatorId;
+
+    private String originatorId;
 
     public OriginatorsBLEntity() {
     }
@@ -21,11 +22,11 @@ public class OriginatorsBLEntity {
         this.id = id;
     }
 
-    public int getOriginatorId() {
+    public String getOriginatorId() {
         return originatorId;
     }
 
-    public void setOriginatorId(int originatorId) {
+    public void setOriginatorId(String originatorId) {
         this.originatorId = originatorId;
     }
 }

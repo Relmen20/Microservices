@@ -36,7 +36,7 @@ public class MessageService {
         if (sessionEntity == null) {
             throw new NullSessionException();
         }
-        log.info("Validate by Postgres: " + externalTransportSms);
+        log.info("Validate by Postgres ");
         return mergeToInnerAppSms(sessionEntity, externalTransportSms);
     }
 

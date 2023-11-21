@@ -84,6 +84,6 @@ public class OriginatorBLController {
     }
 
     private boolean validateOriginatorBLDto(OriginatorBLDto originatorBLDto){
-        return originatorBLDto.getOriginatorId() == 0;
+        return originatorBLDto.getOriginatorId() == null;
     }
 }

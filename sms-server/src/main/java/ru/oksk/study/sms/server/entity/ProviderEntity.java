@@ -4,7 +4,7 @@ import javax.persistence.*;
 import java.util.List;
 
 @Entity
-@Table(name = "provider")
+@Table(name = "provider", schema = "testdb")
 public class ProviderEntity {
 
     @Id
@@ -17,8 +17,8 @@ public class ProviderEntity {
     private String providerName;
     @Column(name = "email")
     private String email;
-    @OneToMany(mappedBy = "providerEntity", cascade = CascadeType.ALL)
-    private List<SessionEntity> sessionEntityList;
+//    @OneToMany(mappedBy = "providerEntity", cascade = CascadeType.ALL)
+//    private List<SessionEntity> sessionEntityList;
 
     public ProviderEntity() {
     }
@@ -70,14 +70,6 @@ public class ProviderEntity {
                 ", providerName='" + providerName + '\'' +
                 ", email='" + email + '\'' +
                 '}';
-    }
-
-    public List<SessionEntity> getSessionEntityList() {
-        return sessionEntityList;
-    }
-
-    public void setSessionEntityList(List<SessionEntity> sessionEntityList) {
-        this.sessionEntityList = sessionEntityList;
     }
 
 }

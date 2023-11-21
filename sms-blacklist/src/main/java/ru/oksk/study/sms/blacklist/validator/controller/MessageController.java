@@ -29,9 +29,10 @@ public class MessageController {
     public void startBlackListPoint(@RequestBody ExternalTransportSms externalTransportSms) {
         try {
             if(!validateTransportDto(externalTransportSms)){
-                log.info("Not valid DTO with id {} come to service", externalTransportSms.getId());
+                log.info("Not valid sms with id {} come to service", externalTransportSms.getId());
+                return;
             }
-            log.info("Valid DTO: " + externalTransportSms);
+            log.info("Income sms: " + externalTransportSms);
             processExecutor.execute(() -> processService.processTransportMessage(externalTransportSms));
         }catch(Exception e){
             log.error("Exception " + e);

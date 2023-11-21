@@ -1,9 +1,11 @@
 package ru.oksk.study.sms.server.dto;
 
+import ru.oksk.study.sms.server.model.PriorityType;
+
 public class SessionDto {
     private int id;
     private int operatorId;
-    private String priorityType;
+    private PriorityType priorityType;
     private int providerId;
     private String sessionName;
 
@@ -15,11 +17,11 @@ public class SessionDto {
         this.id = id;
     }
 
-    public String getPriorityType() {
+    public PriorityType getPriorityType() {
         return priorityType;
     }
 
-    public void setPriorityType(String priorityType) {
+    public void setPriorityType(PriorityType priorityType) {
         this.priorityType = priorityType;
     }
 

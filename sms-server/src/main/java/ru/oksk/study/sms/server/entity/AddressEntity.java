@@ -3,7 +3,7 @@ package ru.oksk.study.sms.server.entity;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "address")
+@Table(name = "address", schema = "testdb")
 public class AddressEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
